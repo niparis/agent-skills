@@ -11,6 +11,8 @@ Generate accurate, maintainable, production-grade documentation for real codebas
 This skill prioritizes **truth over completeness**:  
 if something cannot be verified, it is explicitly marked as such.
 
+Do not create one documentation per code file, it's too exhaustive. Create one file for each python module (one folder). If a module contains a single file, combine it's documentation with the parent directory
+
 ---
 
 ## Core Principles
@@ -27,7 +29,6 @@ if something cannot be verified, it is explicitly marked as such.
    - Clearly indicate how information was derived (e.g. code inspection, tests, assumptions).
 
 4. **Layered Information**
-   - Enable fast onboarding (Quickstart).
    - Support deep understanding (Architecture, Design Decisions).
    - Allow precise lookup (Module & API documentation).
 
