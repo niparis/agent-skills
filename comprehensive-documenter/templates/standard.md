@@ -33,14 +33,6 @@ const result = await functionName("value", 42);
 - Performance considerations
 - Async / concurrency behavior
 
-## Dependencies
-
-**Internal**
-- `./other-module` – Purpose
-
-**External**
-- `library` – Why required
-
 ## Implementation Notes
 [Algorithms, patterns, known limitations, TODOs]
 
