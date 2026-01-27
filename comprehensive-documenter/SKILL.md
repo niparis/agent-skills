@@ -58,7 +58,7 @@ All generated documents must include, where applicable:
 ## Templates Reference
 
 This skill uses the following documentation templates:
-- **Module Documentation** → `templates/stamndard.md`
+- **Module Documentation** → `templates/standard.md`
 - **Architecture Documentation** → `templates/architecture.md`
 - **API Reference** → `templates/api.md`
 
