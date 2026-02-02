@@ -1,6 +1,9 @@
 ---
 name: architecture-patterns
 description: Implement proven backend architecture patterns including Clean Architecture, Hexagonal Architecture, and Domain-Driven Design. Use when architecting complex backend systems or refactoring existing applications for better maintainability.
+metadata:
+  author: niparis
+  version: "1.0.0"
 ---
 
 # Architecture Patterns

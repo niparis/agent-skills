@@ -2,6 +2,9 @@
 name: comprehensive-documenter
 description: Create documentation for the whole project.. Use when getting started on a new project
 allowed-tools: Read, Grep, Bash, Glob
+metadata:
+  author: niparis
+  version: "1.0.0"
 ---
 
 ## Purpose
