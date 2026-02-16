@@ -21,6 +21,7 @@ Analyze the user's request to determine operation mode:
 | "commit", "커밋", changes to commit | `COMMIT` | Phase 0-6 (existing) |
 | "rebase", "리베이스", "squash", "cleanup history" | `REBASE` | Phase R1-R4 |
 | "find when", "who changed", "언제 바뀌었", "git blame", "bisect" | `HISTORY_SEARCH` | Phase H1-H3 |
+| "pr", "/pr", "create pr", "open pull request", "submit for review" | `PR` | Phase P1-P5 |
 | "smart rebase", "rebase onto" | `REBASE` | Phase R1-R4 |
 
 **CRITICAL**: Don't default to COMMIT mode. Parse the actual request.
@@ -1103,3 +1104,98 @@ POTENTIAL ACTIONS:
 - `-S` when `-G` is appropriate -> Wrong results
 - Blame without `-C` on moved code -> Wrong attribution
 - Bisect without proper good/bad boundaries -> Wasted time
+
+---
+---
+
+# PR MODE (Phase P1-P5)
+
+## PHASE P1: PR Context Gathering (PARALLEL)
+
+<pr_context>
+Execute in parallel:
+
+```bash
+git status
+git diff --stat
+git diff --staged --stat
+git branch --show-current
+git rev-parse --abbrev-ref @{upstream} 2>/dev/null || echo "NO_UPSTREAM"
+git log --oneline $(git merge-base HEAD main 2>/dev/null || git merge-base HEAD master 2>/dev/null)..HEAD
+```
+
+If GitHub CLI is available:
+
+```bash
+gh repo view --json name,owner,defaultBranchRef
+```
+</pr_context>
+
+---
+
+## PHASE P2: PR Policy Detection
+
+<pr_policy>
+Detect title/body conventions in repo files, in this order:
+
+1. `.github/pull_request_title_conventions.md`
+2. `.github/pull_request_template.md` or `.github/PULL_REQUEST_TEMPLATE.md`
+3. `.github/PULL_REQUEST_TEMPLATE/` (pick default if multiple)
+4. CI workflow rules for title checks (search `.github/workflows` for `pr-title` or regex)
+
+If no repo policy found, use conventional format:
+`<type>(<scope>): <Summary>` with `feat|fix|docs|refactor|test|perf|build|ci|chore`.
+</pr_policy>
+
+---
+
+## PHASE P3: Draft Title + Body
+
+<pr_draft>
+Draft title and body based on:
+- All commits since merge base (not only latest)
+- Files changed (group by area)
+- Tests run (if any)
+
+Body defaults (if no template):
+
+```
+## Summary
+- <1-3 bullets focused on why and impact>
+
+## Testing
+- <tests run or "Not run">
+
+## Risks / Rollout
+- <any risk or "Low">
+
+## Links
+- <issues/tickets if provided>
+```
+</pr_draft>
+
+---
+
+## PHASE P4: Push Branch (If Needed)
+
+<pr_push>
+If no upstream branch, push with:
+
+```bash
+git push -u origin HEAD
+```
+</pr_push>
+
+---
+
+## PHASE P5: Create PR
+
+<pr_create>
+Use `gh pr create` with title/body. Create draft if requested or if tests not run.
+
+```bash
+gh pr create --title "<title>" --body "<body>" --draft
+```
+
+Return the PR URL and a short next-steps list (tests, reviewers, labels).
+</pr_create>
