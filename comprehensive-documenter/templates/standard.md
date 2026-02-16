@@ -7,6 +7,12 @@
 ## Overview
 [What this module does, why it exists, and how it fits into the system]
 
+## When to use
+- [Primary use cases]
+
+## When not to use
+- [Common misuses or constraints]
+
 ## Public API
 
 ### `functionName(param1, param2)`

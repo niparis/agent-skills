@@ -4,6 +4,12 @@
 **Audience:** Engineers, architects  
 **Scope:** System structure, data flow, design rationale
 
+## When to use
+- [Situations where this architecture is appropriate]
+
+## When not to use
+- [Constraints or contexts where this architecture is a poor fit]
+
 ## System Context
 
 ```mermaid

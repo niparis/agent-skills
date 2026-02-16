@@ -4,6 +4,12 @@
 **Authentication:** Bearer token  
 **Last Verified:** [Date]
 
+## When to use
+- [Primary use cases]
+
+## When not to use
+- [Constraints or alternative paths]
+
 ## Endpoints
 
 ### `POST /auth/login`

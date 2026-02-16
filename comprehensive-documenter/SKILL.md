@@ -1,53 +1,52 @@
 ---
 name: comprehensive-documenter
-description: Create documentation for the whole project.. Use when getting started on a new project
-allowed-tools: Read, Grep, Bash, Glob
-metadata:
-  author: niparis
-  version: "1.0.0"
+description: Create accurate, maintainable documentation for an entire codebase. Use when asked to document a repo, explain architecture, or generate module/API docs from existing code.
 ---
 
-## Purpose
+# Comprehensive Documenter
 
-Generate accurate, maintainable, production-grade documentation for real codebases using standardized templates.
+## Intent (Why this exists)
 
-This skill prioritizes **truth over completeness**:  
-if something cannot be verified, it is explicitly marked as such.
+Produce documentation that helps readers **decide and succeed**:
 
-Do not create one documentation per code file, it's too exhaustive. Create one file for each python module (one folder). If a module contains a single file, combine it's documentation with the parent directory
+- Decide: what the system/module does, why it exists, when to use it, and what trade-offs it implies.
+- Succeed: how to use it safely, what to expect, and how to verify behavior.
+
+This skill prioritizes **truth over completeness**. If something cannot be verified, mark it as **Unknown / Unverified** and explain what evidence is missing.
+
+Avoid per-file documentation. Prefer one document per module or folder so readers can understand a coherent unit of responsibility.
 
 ---
 
-## Core Principles
+## Core Principles (Why-first)
 
-1. **Template-Driven**
-   - Use predefined templates to ensure consistency and coverage.
-   - Do not invent new sections unless explicitly requested.
+1. **Reader outcomes first**
+   - Lead with purpose, context, and consequences before steps.
+   - Explain non-obvious decisions and trade-offs.
 
-2. **Accuracy First**
+2. **Accuracy over completeness**
    - Never guess behavior.
-   - If information cannot be derived from code or provided context, mark it as **Unknown / Unverified**.
+   - Mark unverifiable claims explicitly.
 
-3. **Evidence-Aware**
-   - Clearly indicate how information was derived (e.g. code inspection, tests, assumptions).
+3. **Evidence-aware**
+   - State how each claim was derived (code inspection, tests, runtime observation, assumption).
 
-4. **Layered Information**
-   - Support deep understanding (Architecture, Design Decisions).
-   - Allow precise lookup (Module & API documentation).
+4. **Layered explanation**
+   - Architecture docs explain system intent and decisions.
+   - Module/API docs explain boundaries, contracts, and usage.
 
 5. **Maintainability**
-   - Include verification metadata.
-   - Make documentation safe to update incrementally.
+   - Include verification metadata so updates are safe and incremental.
 
 ---
 
 ## When to Use
 
 Use this skill when the user asks to:
-- “Document this project / repo / codebase”
-- “Write developer documentation / README”
-- “Explain the architecture”
-- “Generate API or module documentation”
+- "Document this project / repo / codebase"
+- "Write developer documentation / README"
+- "Explain the architecture"
+- "Generate API or module documentation"
 
 ---
 
@@ -58,11 +57,18 @@ All generated documents must include, where applicable:
 - **Evidence Sources:** how information was obtained
 - **Unknown / Unverified:** section if any assumptions exist
 
+## What every doc should answer
+
+- What problem does this solve and for whom?
+- When should it be used and when should it not?
+- What decisions or constraints matter for success?
+- How can a reader verify the behavior?
+
 ## Templates Reference
 
-This skill uses the following documentation templates:
+Use these templates to keep structure consistent:
 - **Module Documentation** → `templates/standard.md`
 - **Architecture Documentation** → `templates/architecture.md`
 - **API Reference** → `templates/api.md`
 
-These templates define the structure that this skill will populate. If any template changes, update this skill accordingly.    
+Do not invent new sections unless explicitly requested. If a template changes, update this skill accordingly.
