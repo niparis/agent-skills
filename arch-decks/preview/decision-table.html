@@ -1,0 +1,14 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../components.css">
+<style>body{margin:0;padding:18px 20px;}
+table{border:0.5px solid var(--border);border-radius:8px;overflow:hidden;}</style></head><body>
+<table class="ds-table">
+  <thead><tr><td style="width:28%;">Decision</td><td style="width:42%;">Why</td><td style="width:30%;">Alternative Rejected</td></tr></thead>
+  <tbody>
+    <tr><td>Central agent gateway + policy engine</td><td>An immutable core must be <strong>enforced in-path</strong>, not just declared.</td><td class="col-rejected">Decentralised policy only. Unenforceable; kill switch becomes theatre.</td></tr>
+    <tr><td>Tool execution federated at the app boundary</td><td>Gateway <strong>decides</strong>, app <strong>executes</strong> under its own identity.</td><td class="col-rejected">Central tool-broker. Honeypot, breaks app identity, residency bleed.</td></tr>
+  </tbody>
+</table>
+</body></html>

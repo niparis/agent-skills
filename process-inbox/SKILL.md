@@ -8,7 +8,7 @@ Steps:
 Source are all files in ./llm_wiki/inbox
 For each source:
 
-0. Run `llmkb inbox prepare <source_id>` before anything else. This enriches PDF sources (VLM visual summaries, table extraction) so the `index.md` you read in step 1 is already the enriched version. It is a no-op for non-PDF connectors and is idempotent (safe to re-run).
+0. Do not run `inbox prepare` during per-source processing. `cogforge inbox run` pre-validates and prepares the selected source before spawning the agent. If the prompt mentions PageIndex or prepared artifacts, use those artifacts while reading the source.
 
 1. Read the source.
 2. Identify the source type:
