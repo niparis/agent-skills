@@ -1,134 +1,71 @@
 # Skills Catalog
 
+[https://github.com/niparis/agent-skills.git](https://github.com/niparis/agent-skills.git)
 
-npx skills add ni.paris/skills
+A personal catalog of [Agent Skills](https://skills.sh) for Claude Code and other coding agents. It mixes reusable engineering disciplines (architecture patterns, code review, CI/CD design) with standalone workflows (documentation generation, knowledge-graph building, skill creation). Install what you need, or browse the reference below for what each skill does and when it applies.
 
-### architecture-patterns
-- Implements Clean Architecture, Hexagonal Architecture, and DDD for backend systems.
-- Use it when designing or refactoring service boundaries, ports/adapters, and domain models.
-- Enforces inward dependencies, framework-free domain code, and thin controllers.
+## Installation
 
-### apply-project-agent-template
-- Creates or updates a lean `AGENTS.md` or `CLAUDE.md` using a standard template.
-- Use it to establish consistent repo-specific agent instructions and workflow defaults.
-- Focuses on minimal, practical guidance with placeholders for unknown project details.
+```bash
+npx skills add niparis/agent-skills
+```
 
-### boundary-validation
-- Enforces strict two-layer validation: DTO contract checks vs domain business rules.
-- Use it when reviewing API payload validation, especially Pydantic-heavy endpoints.
-- Prevents validator bloat by moving policy, IO, and semantic checks out of request models.
+Pick the skills you want from the interactive prompt, and which coding agents to install them on.
 
-### code-review
-- Runs structured code reviews with checklist-driven and guideline-driven feedback.
-- Use it for pull request reviews requiring security and performance-aware evaluation.
-- Applies companion files and reports findings by severity.
+## Reference
 
-### comprehensive-documenter
-- Generates accurate, maintainable documentation for whole repositories, modules, and APIs.
-- Use it when asked to document architecture, modules, or project usage comprehensively.
-- Prioritizes why-first docs, evidence-backed claims, and explicit unknowns.
+Skills split on one axis: who invokes them. **User-invoked** skills are reachable only when you type them (e.g. `/graphify`); their job is to run a full, deliberate task end-to-end. **Model-invoked** skills hold a reusable discipline the agent reaches for automatically when a task fits, but you can also invoke them directly.
 
-### deployment-pipeline-design
-- Designs multi-stage CI/CD pipelines with gates, rollout strategy, and rollback design.
-- Use it for release workflows balancing speed, safety, and production confidence.
-- Enforces artifact promotion, explicit verification, and predefined rollback triggers.
+### Engineering
 
-### docs-review
-- Reviews markdown documentation against Metabase-style writing quality standards.
-- Use it for documentation reviews that need clear, actionable editorial feedback.
-- Emphasizes reader outcomes, decision clarity, tone trust, and numbered issues.
+Backend architecture, code quality, and delivery. Reference disciplines the agent applies mid-task.
 
-### event-store-design
-- Designs append-only event stores for event-sourced architectures.
-- Use it when selecting event store tech and implementing streams, subscriptions, and checkpoints.
-- Requires ordering, optimistic concurrency, idempotency, and durable replay positioning.
+**Model-invoked**
 
-### git-master
-- Provides advanced Git workflows for commits, rebases, history search, and pull request prep.
-- Use it for Git-heavy tasks including split commits, blame or bisect, and history cleanup.
-- Enforces atomic commit splitting, style detection, and branch context analysis.
+- **[architecture-patterns](./skills/architecture-patterns/SKILL.md)**: Implements Clean Architecture, Hexagonal Architecture, and DDD for backend systems — inward dependencies, framework-free domain code, thin controllers.
+- **[boundary-validation](./skills/boundary-validation/SKILL.md)**: Enforces the Two-Layer Boundary policy for API payloads, keeping DTO contract checks separate from domain business rules.
+- **[clean-architecture-python](./skills/implementing-clean-architecture/SKILL.md)**: Implements Clean Architecture in advanced Python codebases — use cases, ports, adapters, and composition roots kept framework-free.
+- **[event-store-design](./skills/event-store-design/SKILL.md)**: Designs append-only event stores for event-sourced systems — ordering, optimistic concurrency, idempotency, replay.
+- **[modular-monolith-fastapi](./skills/modular-monolith/SKILL.md)**: Designs FastAPI modular monoliths with strict module boundaries, composition-root wiring, and DTO-based contracts.
+- **[mastering-postgresql-appdev](./skills/mastering-postgresql/SKILL.md)**: Treats PostgreSQL as an application-facing service — DB API layering, constraints, set-based logic, versioned SQL.
+- **[litestar-expert](./skills/litestar-expert/SKILL.md)**: Expert guidance for Litestar ASGI apps — routing, DTOs, dependency injection, middleware, auth, OpenAPI.
+- **[pydantic-models-py](./skills/pydantic-models-py/SKILL.md)**: Defines Pydantic v2 models with the Base/Create/Update/Response/InDB pattern for clean API schemas.
+- **[vercel-react-best-practices](./skills/react-best-practices/SKILL.md)**: Vercel's React/Next.js performance rules — waterfall elimination, bundle control, fetch strategy, rerender efficiency.
+- **[web-design-guidelines](./skills/web-design-guidelines/SKILL.md)**: Reviews UI implementations against current web interface and accessibility guidelines, reporting only materially impactful issues.
+- **[code-review](./skills/code-review/SKILL.md)**: Structured, checklist- and guideline-driven code review with severity-ranked findings.
+- **[docs-review](./skills/docs-review/SKILL.md)**: Reviews documentation changes against Metabase-style writing quality standards.
+- **[deployment-pipeline-design](./skills/deployment-pipeline-design/SKILL.md)**: Designs multi-stage CI/CD pipelines — approval gates, rollout strategy, explicit rollback triggers.
+- **[github-actions-templates](./skills/github-actions-templates/SKILL.md)**: Builds production-grade GitHub Actions workflows with pinned actions, least-privilege permissions, secret-safe config.
+- **[git-master](./skills/git-master/SKILL.md)**: Advanced Git workflows — atomic commit splitting, rebases, blame/bisect history search, PR prep.
 
-### github-actions-templates
-- Builds production-grade GitHub Actions workflows for test, build, and deploy automation.
-- Use it when creating CI/CD pipelines, reusable workflows, and deployment gates.
-- Enforces pinned actions, least-privilege permissions, and secret-safe configuration.
+### Writing
 
-### clean-architecture-python
-- Applies Clean Architecture patterns in Python codebases with clear layer boundaries.
-- Use it when defining use cases, ports, adapters, and composition roots.
-- Keeps domain logic framework-free and routes persistence through interfaces.
+Documentation and prose, from one-off setup to ongoing editorial discipline.
 
-### litestar-expert
-- Provides expert guidance for Litestar-based ASGI apps and APIs.
-- Use it for routing, DTOs, dependency injection, middleware, auth, and OpenAPI setup.
-- Promotes layered configuration, DTO-safe responses, and policy outside handlers.
+**User-invoked**
 
-### mastering-postgresql-appdev
-- Treats PostgreSQL as an application-facing service, not only a storage backend.
-- Use it for SQL-centric app design, DB API layering, and schema or query strategy.
-- Emphasizes constraints, set-based logic, explicit result shaping, and versioned SQL.
+- **[comprehensive-documenter](./skills/comprehensive-documenter/SKILL.md)**: Generates accurate, maintainable, why-first documentation for an entire codebase, module, or API.
+- **[apply-project-agent-template](./skills/apply-project-agent-template/SKILL.md)**: Creates or updates a lean `AGENTS.md`/`CLAUDE.md` from a standard template.
+- **[specs-arch-modules](./skills/specs-arch-modules/SKILL.md)**: Keeps architecture docs (product vision, system/functional architecture, component ownership, ADRs) in a fixed `docs/` layout, filing new information in the right file and auditing existing docs against it.
 
-### modular-monolith-fastapi
-- Designs FastAPI modular monoliths with strict module boundaries and public APIs.
-- Use it when you want monolith simplicity with microservice-like internal modularity.
-- Enforces no cross-module leakage, composition-root wiring, and DTO-based contracts.
+**Model-invoked**
 
-### pydantic-models-py
-- Defines Pydantic v2 models using Base, Create, Update, Response, and Persistence variants.
-- Use it for clean request and response schema design in Python APIs.
-- Keeps DTOs mechanical and lightweight while deferring business logic elsewhere.
+- **[ste-writing](./skills/cure-ai-slop/SKILL.md)**: Rewrites prose into ASD-STE100 Simplified Technical English to strip "AI slop" from docs, PRs, and release notes.
+- **[editorial-inquisition](./skills/editorial-inquisition/SKILL.md)**: Ruthlessly tightens long-form prose, cutting anything — sentence, example, digression — that doesn't earn its place.
 
-### vercel-react-best-practices
-- Curates Vercel React and Next.js performance rules across eight optimization categories.
-- Use it when writing, reviewing, or refactoring frontend code for runtime and bundle gains.
-- Prioritizes waterfall elimination, bundle control, fetch strategy, and rerender efficiency.
+### AI & Agent Tooling
 
-### skill-creator
-- Provides a framework for creating, structuring, and packaging high-quality AgentSkills.
-- Use it when building or iterating skills with scripts, references, and assets.
-- Covers naming, frontmatter quality, progressive disclosure, validation, and packaging.
+Working with skills, knowledge graphs, LLM evals, and other agent-facing artifacts.
 
-### web-design-guidelines
-- Reviews UI implementations against current web interface and accessibility guidelines.
-- Use it for UX or UI audits and design-quality checks against explicit standards.
-- Requires fetching the latest guidelines and reporting only materially impactful issues.
+**User-invoked**
 
-### agentic-architecture-design
-- Generates on-brand slide decks and prototype assets for the Standard Chartered "Agentic Architecture" design system.
-- Use it when building software-architecture or platform-strategy slides, or throwaway prototypes/mocks.
-- Ships color/type tokens, reusable slide components, and strict brand voice and layout rules.
+- **[skill-creator](./skills/skill-creator/SKILL.md)**: Creates or updates AgentSkills — naming, frontmatter, progressive disclosure, validation, packaging.
+- **[find-skills](./skills/find-skills/SKILL.md)**: Discovers and installs skills from the open agent skills ecosystem via the `npx skills` CLI.
+- **[graphify](./skills/graphify/SKILL.md)**: Turns any folder of files into a navigable knowledge graph — interactive HTML, GraphRAG-ready JSON, and an audit report.
+- **[agentic-architecture-design](./skills/arch-decks/SKILL.md)**: Generates on-brand slide decks and prototype assets for the Standard Chartered "Agentic Architecture" system.
+- **[extract-factbank](./skills/extract-factbank/SKILL.md)**: Extracts a validated, examinable fact bank from a textbook chapter, then optionally builds study sheets.
+- **[process-inbox](./skills/process-inbox/SKILL.md)**: Ingests a raw source file into a structured wiki knowledge base, enriching existing pages over creating new ones.
 
-### ste-writing
-- Rewrites prose into ASD-STE100 Simplified Technical English to strip "AI slop" from docs and writing.
-- Use it for READMEs, PR descriptions, error messages, release notes, and comments that need to read plain and human.
-- Enforces one-word-one-meaning, active voice, short sentences, and a strict/STE-flavored mode split.
+**Model-invoked**
 
-### editorial-inquisition
-- Ruthlessly tightens essays, white papers, specs, and memos by cutting anything that doesn't earn its place.
-- Use it when editing long-form prose that's grown bloated, repetitive, or unfocused.
-- Treats every sentence as guilty until proven necessary; skip it when the user wants brainstorming or expansion instead.
-
-### extract-factbank
-- Extracts an examinable fact bank (validated JSONL + clusters) from a textbook or source chapter, then optionally builds study sheets.
-- Use it to turn regulatory, medical, technical, or exam-prep material into structured, testable facts.
-- Requires every fact to cite a chapter page; subject-agnostic via per-subject profile.json conventions.
-
-### find-skills
-- Helps discover and install skills from the open agent skills ecosystem via the `npx skills` CLI.
-- Use it when the user asks "is there a skill for X" or wants to extend agent capabilities.
-- Points to `npx skills find/add/check/update` and skills.sh for browsing.
-
-### graphify
-- Turns any folder of files (code, docs, papers, images) into a navigable knowledge graph with community detection.
-- Use it via `/graphify` to build interactive HTML, GraphRAG-ready JSON, and a plain-language audit report.
-- Supports incremental updates, BFS/DFS querying, Neo4j export, and MCP server access.
-
-### phoenix-llm-evals
-- Best practices for designing, running, and maintaining LLM evaluations on Arize Phoenix.
-- Use it when evaluating RAG pipelines, chatbots, tool-calling agents, extraction, summarization, or codegen.
-- Routes to use-case-specific playbooks plus core principles, Phoenix mechanics, and judge-validation references.
-
-### process-inbox
-- Ingests raw sources (articles, papers, books, notes, transcripts) into a structured wiki knowledge base.
-- Use it when asked to process an inbox file, summarize a source, or add a document to the knowledge base.
-- Identifies key concepts and decisions, prefers enriching existing wiki pages over creating new ones, and logs history.
+- **[phoenix-llm-evals](./skills/llm-evals-standards/SKILL.md)**: Best practices for designing, running, and maintaining LLM evaluations on Arize Phoenix.
