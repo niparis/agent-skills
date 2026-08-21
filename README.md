@@ -1,5 +1,8 @@
 # Skills Catalog
 
+
+npx skills add ni.paris/skills
+
 ### architecture-patterns
 - Implements Clean Architecture, Hexagonal Architecture, and DDD for backend systems.
 - Use it when designing or refactoring service boundaries, ports/adapters, and domain models.
@@ -89,3 +92,43 @@
 - Reviews UI implementations against current web interface and accessibility guidelines.
 - Use it for UX or UI audits and design-quality checks against explicit standards.
 - Requires fetching the latest guidelines and reporting only materially impactful issues.
+
+### agentic-architecture-design
+- Generates on-brand slide decks and prototype assets for the Standard Chartered "Agentic Architecture" design system.
+- Use it when building software-architecture or platform-strategy slides, or throwaway prototypes/mocks.
+- Ships color/type tokens, reusable slide components, and strict brand voice and layout rules.
+
+### ste-writing
+- Rewrites prose into ASD-STE100 Simplified Technical English to strip "AI slop" from docs and writing.
+- Use it for READMEs, PR descriptions, error messages, release notes, and comments that need to read plain and human.
+- Enforces one-word-one-meaning, active voice, short sentences, and a strict/STE-flavored mode split.
+
+### editorial-inquisition
+- Ruthlessly tightens essays, white papers, specs, and memos by cutting anything that doesn't earn its place.
+- Use it when editing long-form prose that's grown bloated, repetitive, or unfocused.
+- Treats every sentence as guilty until proven necessary; skip it when the user wants brainstorming or expansion instead.
+
+### extract-factbank
+- Extracts an examinable fact bank (validated JSONL + clusters) from a textbook or source chapter, then optionally builds study sheets.
+- Use it to turn regulatory, medical, technical, or exam-prep material into structured, testable facts.
+- Requires every fact to cite a chapter page; subject-agnostic via per-subject profile.json conventions.
+
+### find-skills
+- Helps discover and install skills from the open agent skills ecosystem via the `npx skills` CLI.
+- Use it when the user asks "is there a skill for X" or wants to extend agent capabilities.
+- Points to `npx skills find/add/check/update` and skills.sh for browsing.
+
+### graphify
+- Turns any folder of files (code, docs, papers, images) into a navigable knowledge graph with community detection.
+- Use it via `/graphify` to build interactive HTML, GraphRAG-ready JSON, and a plain-language audit report.
+- Supports incremental updates, BFS/DFS querying, Neo4j export, and MCP server access.
+
+### phoenix-llm-evals
+- Best practices for designing, running, and maintaining LLM evaluations on Arize Phoenix.
+- Use it when evaluating RAG pipelines, chatbots, tool-calling agents, extraction, summarization, or codegen.
+- Routes to use-case-specific playbooks plus core principles, Phoenix mechanics, and judge-validation references.
+
+### process-inbox
+- Ingests raw sources (articles, papers, books, notes, transcripts) into a structured wiki knowledge base.
+- Use it when asked to process an inbox file, summarize a source, or add a document to the knowledge base.
+- Identifies key concepts and decisions, prefers enriching existing wiki pages over creating new ones, and logs history.
