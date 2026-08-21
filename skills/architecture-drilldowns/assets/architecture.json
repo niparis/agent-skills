@@ -1,0 +1,224 @@
+{
+  "_comment": [
+    "The machine-readable index for one docs directory. Copy this file, replace",
+    "every REPLACE, delete every block the project does not need, and delete this",
+    "_comment key. JSON has no comments, so this is the only place they live.",
+    "",
+    "DIVISION OF LABOUR — the rule that keeps the two artifacts from drifting:",
+    "  the HTML owns the narrative — purpose lines, prose, reads/persists/emits;",
+    "  this file owns identity, contracts, invariants, decisions and views.",
+    "Nothing is declared in both. In particular there are no reads/writes here:",
+    "check_docs.py parses those out of the map's own chips, so the map stays the",
+    "single place a flow is described.",
+    "",
+    "Everything here is checked. Run:",
+    "  check_docs.py <docs-dir> --source-root <repo-root>"
+  ],
+
+  "title": "REPLACE — the system or pipeline name a reader would recognise",
+  "pipeline": "REPLACE-slug",
+
+  "//status": [
+    "built | proposed | draft | design | planned.",
+    "This one field decides whether the checker compares the docs against code and",
+    "data at all. A design that is not implemented has no stage enum to read and no",
+    "data directory to glob, so those checks are skipped and the run says so.",
+    "Getting this wrong in either direction is expensive: 'built' on a design gives",
+    "a wall of errors that all mean 'not implemented yet', which is how a checker",
+    "gets ignored; 'proposed' on shipped code silently switches off the only checks",
+    "that can see drift."
+  ],
+  "status": "built",
+
+  "//system": "The level-0 context page, if there is one. Omit for a single pipeline.",
+  "system": "system-map.html",
+  "map": "REPLACE-map.html",
+
+  "//component_map": [
+    "The structural page: components, what each owns, and the channels between",
+    "them. Omit it for a system with one component or no supervision structure —",
+    "there is nothing to map that the pipeline map does not already say.",
+    "Checked exactly like `map`: every entry in `components` needs a card on it,",
+    "numbered and ordered the same."
+  ],
+  "component_map": "component-map.html",
+
+  "//index": [
+    "The landing page that routes a reader to the right map. Every page named in",
+    "this file must be linked from it, and a page sitting in the directory that",
+    "the index does not link is reported — that is how a drill-down written last",
+    "week goes unread. Omit the key if there is only one page to route to."
+  ],
+  "index": "index.html",
+
+  "//stage_source": [
+    "`file · symbol` — the authoritative stage list in the CODE, in the same",
+    "grammar as a .ref chip. An enum whose members carry string values, or a",
+    "module-level list/tuple of string literals.",
+    "Point it at the ENUM, not at something derived from the enum: a comprehension",
+    "like `STAGES = [s.value for s in StageName]` holds no literals to read, and the",
+    "checker will tell you so rather than guess.",
+    "This is the single highest-value line in the file — it is what makes a renamed",
+    "or reordered stage fail a check instead of rotting."
+  ],
+  "stage_source": "REPLACE/path.py · REPLACE_STAGE_ENUM",
+
+  "//views": [
+    "Named readings of the one model. A stage lists the views it belongs to; the",
+    "map's view bar filters to one at a time. Add a view when a real audience keeps",
+    "needing a subset — not one per stage group."
+  ],
+  "views": [
+    { "id": "REPLACE-view-id", "title": "REPLACE view name" }
+  ],
+
+  "//stages": [
+    "The spine, in execution order. Per stage:",
+    "  id          the number on the map's rail. Must match a card.",
+    "  name        the stage's real name in the codebase. A reader greps it.",
+    "  code_names  which stage_source members this card covers. Defaults to [name].",
+    "              Use [] for a verb outside the run pipeline (a setup command), and",
+    "              a list of two when one card covers two members that always run",
+    "              together. Flattened in order, these must equal the code's list.",
+    "  drilldown   the level-2 page, if one exists. Coverage is reported, not required.",
+    "  views       which views this stage appears in.",
+    "  not         responsibilities this stage explicitly does NOT take on. The map",
+    "              has no place for these and they are where scope creep lands, so",
+    "              they live here. Set \"no_not\": true to declare there are none.",
+    "  invariants  claims that must hold for the stage to be correct, written so a",
+    "              reader can check the code against them. \"no_invariants\": true to",
+    "              declare none deliberately.",
+    "  adr         decision records that shaped it, by leading id.",
+    "NOTE there is deliberately no `purpose` here: that is the map's `.goal` line,",
+    "and giving it two homes would let one of them drift."
+  ],
+  "stages": [
+    {
+      "id": "0",
+      "name": "REPLACE-first-stage",
+      "code_names": [],
+      "views": ["REPLACE-view-id"],
+      "not": ["REPLACE — the neighbouring concern a reader would assume lives here"],
+      "invariants": ["REPLACE — a claim a reader can check the code against"],
+      "adr": ["001"]
+    }
+  ],
+
+  "//components": [
+    "The owners, for the component map. A stage is a step in a sequence; a",
+    "component is a thing that owns a responsibility, and the two lists are not",
+    "the same shape — one process often spans several stages. Per component:",
+    "  id          the number on the component map's rail. Must match a card.",
+    "  name        what it is called in the system. A reader greps it.",
+    "  external    INSTEAD of name, the id of an already-declared external this",
+    "              card presents. Use it when a system is a component to a reader",
+    "              and an external to the boundary page — it stays declared once.",
+    "  kind        deterministic | agentic | mixed | store | external. Informational;",
+    "              the card's own tags are what a reader sees.",
+    "  not         responsibilities it is structurally prevented from taking on.",
+    "              This is the field that makes the page worth writing.",
+    "  invariants  claims that must hold for the component to be correct.",
+    "  adr         decision records that shaped it, by leading id.",
+    "There is deliberately no `drilldown` here: a component's deeper page is a",
+    "STAGE page, on the other axis, and linking it belongs in the card's HTML."
+  ],
+  "components": [
+    {
+      "id": "1",
+      "name": "REPLACE — e.g. the supervisor",
+      "kind": "deterministic",
+      "not": ["REPLACE — the responsibility a reader would assume it holds and it does not"],
+      "invariants": ["REPLACE — a claim a reader can check the code against"],
+      "adr": ["001"]
+    }
+  ],
+
+  "//channels": [
+    "The edges of the component map: what travels, and between whom. Same role",
+    "`edges` plays for the level-0 page — the machine-readable model, not the",
+    "prose. The page's own channels table is where a reader meets them, and what",
+    "breaks when one goes silent belongs there, not here.",
+    "  from / to   a component id or an external id.",
+    "  carries     the payload, in the system's own words. Required — a channel",
+    "              with no payload named is a line on a diagram."
+  ],
+  "channels": [
+    { "from": "1", "to": "REPLACE-external-id", "carries": "REPLACE" }
+  ],
+
+  "//externals": [
+    "Systems outside the boundary, for the level-0 page. These have no card of",
+    "their own, so their purpose is declared here and the checker requires it.",
+    "An external MAY also appear as a component card via `external` above — that",
+    "is one declaration presented twice, not two declarations."
+  ],
+  "externals": [
+    {
+      "id": "REPLACE-external-id",
+      "title": "REPLACE — e.g. a model API",
+      "purpose": "REPLACE — what it is for here, and what breaks without it.",
+      "adr": []
+    }
+  ],
+
+  "//edges": [
+    "Only the relationships the numbered rail CANNOT express: a side channel every",
+    "stage uses (telemetry, a run archive), or a link to an external system. Do not",
+    "restate stage N → stage N+1 — the order already says that.",
+    "Endpoints must be a stage id or an external id."
+  ],
+  "edges": [
+    { "from": "0", "to": "REPLACE-external-id", "label": "emit: REPLACE" }
+  ],
+
+  "//data_globs": [
+    "Where the real artifacts live, relative to --source-root. Every file found",
+    "here must be claimed by some card's persists/writes chips, or listed in",
+    "`ignore`. This is how a sidecar nobody documented surfaces."
+  ],
+  "data_globs": ["REPLACE/data/**/*"],
+  "ignore": [".DS_Store", "README.md"],
+
+  "//contracts": [
+    "The shape of each durable artifact at a stage boundary — what the next stage",
+    "is entitled to assume. Keyed by the filename as the map writes it.",
+    "  kind       json | jsonl",
+    "  sample     glob for real files to check against, relative to --source-root.",
+    "             ANCHOR IT: a loose `chapter-*.sections.json` also matches",
+    "             `chapter-05.meta.sections.json`, a different artifact, and the",
+    "             check then fails against the wrong file.",
+    "  required   keys that must be present in EVERY record of every sample.",
+    "  optional   keys that may be absent. Anything present and undeclared warns.",
+    "  invariants prose claims. Printed as a reminder, NOT machine-checked — the",
+    "             checker says so on every run so nobody mistakes them for verified."
+  ],
+  "contracts": {
+    "REPLACE-artifact.jsonl": {
+      "kind": "jsonl",
+      "sample": "REPLACE/data/*/REPLACE-artifact.jsonl",
+      "written_by": "0",
+      "amended_by": [],
+      "required": ["REPLACE"],
+      "optional": [],
+      "invariants": ["REPLACE — a claim about the shape that no key check can see"]
+    }
+  },
+
+  "//configuration": [
+    "Values that were calibrated rather than chosen, and that other things now",
+    "depend on. Declared here so a reader can find every load-bearing number in",
+    "one place instead of grepping prose."
+  ],
+  "configuration": {
+    "REPLACE_setting": "REPLACE value"
+  },
+
+  "//open_questions": [
+    "Decisions not yet made, and decisions deliberately deferred. Say which —",
+    "'deferred until retrieval is evaluated' is a different state from 'nobody has",
+    "decided', and only one of them is a problem."
+  ],
+  "open_questions": [
+    "REPLACE — an undecided or deliberately deferred question"
+  ]
+}

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>REPLACE — architecture</title>
+<link rel="stylesheet" href="_pages.css">
+</head>
+<body>
+<div class="wrap">
+
+<h1>REPLACE — architecture</h1>
+<p class="sub">Four readings of one model. Open the one whose question you have; each page
+answers it alone, and none of them repeats another.<br>
+REPLACE — delete this sentence, or use it to say what state the docs are in
+(<code>proposed</code>, as-built, mid-migration).</p>
+
+<!-- THE INDEX LINKS. IT DOES NOT EXPLAIN. Every sentence here is a routing instruction:
+     which page answers which question. The moment a paragraph starts describing the
+     system, that paragraph belongs on a page and this one has become a fifth map that
+     nobody updates. Checked by check_docs.py: every page the manifest names must be
+     linked from here, and a page in the directory that nothing links is reported. -->
+
+<h2>Start here</h2>
+
+<div class="stage">
+  <div class="rail"><div class="num">1</div><div class="bar"></div></div>
+  <div class="card" data-href="system-map.html">
+    <h3><a href="system-map.html">system context</a><span class="caret">↗</span></h3>
+    <p class="goal"><strong>Answers:</strong> what is this system, what is outside it, and
+      what breaks when an external fails. One page, on purpose.</p>
+    <p class="note">Open it when you are new to the system, when something outside it is
+      failing, or when you need the pinned configuration.</p>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="rail"><div class="num">2</div><div class="bar"></div></div>
+  <div class="card" data-href="component-map.html">
+    <h3><a href="component-map.html">components and channels</a><span class="caret">↗</span></h3>
+    <p class="goal"><strong>Answers:</strong> which components exist, what each one owns,
+      what it is structurally prevented from owning, and what travels between them.</p>
+    <p class="note">Open it when the question is who is responsible for something — or when
+      you are about to add a responsibility and need to know where it goes.</p>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="rail"><div class="num">3</div><div class="bar"></div></div>
+  <div class="card" data-href="REPLACE-map.html">
+    <h3><a href="REPLACE-map.html">REPLACE pipeline</a><span class="caret">↗</span></h3>
+    <p class="goal"><strong>Answers:</strong> what the stages are, in what order, and what
+      each one produces.</p>
+    <p class="note">Open it when you are following the work through the system, or looking
+      for the stage that writes a particular artifact.</p>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="rail"><div class="num">4</div></div>
+  <div class="card">
+    <h3>the full specification</h3>
+    <p class="goal"><strong>Answers:</strong> everything, in prose — the place to settle a
+      question these pages disagree about.</p>
+    <p class="note">REPLACE — name the document and where it lives, e.g.
+      <code>architecture.md</code> beside this file.</p>
+  </div>
+</div>
+
+<h2>Inside a stage</h2>
+<p class="sub">Only the stages deep enough to earn a page. A stage without one carries its
+boundary, invariants and decisions in its card on the map.</p>
+<div class="decs">
+  <a class="dec" href="stage-NN-REPLACE.html">▸ stage NN — REPLACE</a>
+</div>
+
+<h2>Decisions</h2>
+<p class="sub">Why this, and not the obvious alternative. Generated from the records, so it
+cannot go stale as records are added.</p>
+<!-- DECINDEX:BEGIN -->
+<!-- DECINDEX:END -->
+
+<footer>
+  Every page here links back to this one, and every page in the directory is listed above —
+  <code>check_docs.py</code> fails the run when either stops being true.<br>
+  REPLACE — the cascade rule in one line: what must be updated together when the
+  architecture changes. Verify with <code>render_cards.py</code>,
+  <code>render_decisions.py</code>, then <code>check_docs.py</code>.
+</footer>
+
+</div>
+<script>
+/* Widens the click target of a linked card to the whole box. Inline on purpose:
+   an external file:// script is not guaranteed to execute in every viewer. */
+document.addEventListener("click", function (e) {
+  var card = e.target.closest && e.target.closest(".card[data-href]");
+  if (!card) return;
+  if (e.target.closest("a")) return;
+  var sel = window.getSelection();
+  if (sel && String(sel).length > 0) return;
+  window.location.href = card.getAttribute("data-href");
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stage NN — REPLACE · inside the stage</title>
+<link rel="stylesheet" href="_pages.css">
+<style>
+  /* Page-local blocks only. Delete what this stage does not use. Promote a block
+     to _pages.css once a THIRD page needs it — not the second. */
+
+  /* Failure-isolation ladder. Required for any stage with >1 failure mode. */
+  .ladder{border:1px solid var(--line);border-radius:11px;background:var(--card);overflow:hidden}
+  .rung{display:grid;grid-template-columns:minmax(180px,1fr) 2fr;gap:14px;
+    padding:9px 14px;border-bottom:1px solid var(--line);font-size:13px}
+  .rung:last-child{border-bottom:none}
+  .rung b{font-weight:600;font-size:13px}
+  .rung .blast{color:var(--muted)}
+  .rung.fatal{background:var(--gate-bg)}
+  .rung.fatal b{color:var(--gate)}
+
+  /* Phase strip. Only for a NON-LINEAR stage; a linear one has the rail already. */
+  .phases{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 18px}
+  .ph{font-size:12px;font-weight:600;padding:4px 10px;border-radius:7px;
+    border:1px solid var(--line);background:var(--card);white-space:nowrap}
+  .ph.det{color:var(--det);border-color:var(--det);background:var(--det-bg)}
+  .ph.agt{color:var(--agt);border-color:var(--agt);background:var(--agt-bg)}
+  .arrow{color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- The crumb is the path: root → current, ancestors linked, this page plain. The back
+     arrow lives in the footer, not here. Drop the index segment only if there is no index. -->
+<p class="crumb"><a href="index.html">Architecture index</a> <span>/</span>
+  <a href="REPLACE-map.html">Data flow map</a> <span>/</span>
+  <span>Stage NN — REPLACE</span></p>
+
+<h1>Inside <code>REPLACE command</code></h1>
+<!-- This paragraph is the drill-down's goal line. Purpose before mechanism, same rule as
+     the map's .goal: what this stage is for, what the hard part is, and why that shapes it.
+     Not what it does step by step — the rail below covers that. -->
+<p class="sub">REPLACE: one or two sentences framing why this stage is shaped the way it is — not
+what it does, which the table below covers. Zoom-out view:
+<a href="REPLACE-map.html">the data flow map</a>.</p>
+
+<div class="legend">
+  <span class="tag t-det">■ deterministic — zero LLM</span>
+  <span class="tag t-agt">◆ agentic — model call</span>
+  <span class="tag t-gate">▲ gate — can stop the run</span>
+  <span class="tag t-file">▸ artifact</span>
+</div>
+
+<!-- NON-LINEAR STAGES ONLY. Delete for a linear one. -->
+<div class="phases">
+  <span class="ph det">⓪ REPLACE</span><span class="arrow">→</span>
+  <span class="ph agt">① REPLACE</span><span class="arrow">+</span>
+  <span class="ph agt">①ᵇ REPLACE parallel branch</span><span class="arrow">→</span>
+  <span class="ph det">② REPLACE</span>
+</div>
+
+<h2>At a glance</h2>
+<div class="scroll">
+<table>
+  <tbody>
+    <tr><td><strong>Command</strong></td><td><code>REPLACE</code></td></tr>
+    <tr><td><strong>Skipped when</strong></td><td>REPLACE, or delete this row</td></tr>
+    <tr><td><strong>Model calls</strong></td><td>REPLACE — a count or a formula, never a vague
+      "several". Say what makes it vary.</td></tr>
+    <tr><td><strong>Agent roles</strong></td><td>REPLACE, and how each resolves to a model</td></tr>
+    <tr><td><strong>Reads</strong></td><td>REPLACE</td></tr>
+    <tr><td><strong>Writes</strong></td><td>REPLACE</td></tr>
+    <tr><td><strong>Archived?</strong></td><td>REPLACE — is there a run dir / gate / promote?</td></tr>
+    <tr><td><strong>Idempotent?</strong></td><td>REPLACE — does a re-run skip, refuse, or redo?</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- HIGH VALUE, OPTIONAL. The single invariant that explains the rest of the page. -->
+<h2>The idea worth holding onto</h2>
+<div class="card">
+  <p class="note" style="margin-top:0"><strong>REPLACE the load-bearing invariant.</strong> Then
+  one short paragraph on what it buys, and name the deliberate exception if there is one.</p>
+</div>
+
+<!-- REQUIRED for any stage with more than one failure mode. Put it BEFORE the call
+     chain: it is the frame a reader needs to make sense of the detail. -->
+<h2>Failure isolation</h2>
+<p class="sub" style="margin-bottom:14px">Each rung says what blows up and how far the damage
+travels. REPLACE: name how many can stop the run.</p>
+<div class="ladder">
+  <div class="rung"><b>REPLACE smallest failure</b>
+    <span class="blast">REPLACE its blast radius — what still ships.</span></div>
+  <div class="rung"><b>REPLACE bigger failure</b>
+    <span class="blast">REPLACE.</span></div>
+  <div class="rung fatal"><b>REPLACE the fatal one</b>
+    <span class="blast"><strong>REPLACE</strong> — and why this one is not survivable when the
+    others are.</span></div>
+</div>
+
+<h2>The call chain</h2>
+
+<div class="stage">
+  <div class="rail"><div class="num">1</div><div class="bar"></div></div>
+  <div class="card">
+    <h3>REPLACE one decision <span class="tag t-det">■ deterministic</span></h3>
+    <p class="note">REPLACE. Open with what this step is <em>for</em>, then how it works.
+      One step = one decision, not one function. Say what is decided and
+      what happens when it goes wrong.</p>
+    <div class="refs"><span class="ref">REPLACE.py · symbol_name</span></div>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="rail"><div class="num">2</div></div>
+  <div class="card">
+    <h3>REPLACE a model call <span class="tag t-agt">◆ REPLACE role</span></h3>
+    <p class="note">REPLACE: what is sent, what shape comes back, what happens on failure.</p>
+
+    <!-- Contract panel: the rules a model is held to (agentic, default styling), or a
+         deterministic rule set (add class="det"). Quote the RULES, not the prose. -->
+    <div class="panel">
+      <h4>REPLACE — prompt contract</h4>
+      <ul>
+        <li><b>field</b> REPLACE the rule, in the imperative.</li>
+        <li><b>field</b> REPLACE — and note which rules exist because of a past failure.</li>
+      </ul>
+    </div>
+
+    <div class="refs">
+      <span class="ref">REPLACE.py · function_name</span>
+      <span class="ref">REPLACE.py · PROMPT_CONSTANT</span>
+    </div>
+    <div class="io">
+      <div><h4>in</h4><div class="chips"><span class="chip">REPLACE</span></div></div>
+      <div><h4>out</h4><div class="chips"><span class="chip new">REPLACE</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- OPTIONAL: only when the stage has tiers / modes / variants with different rules. -->
+<h2>REPLACE — variant comparison</h2>
+<div class="scroll">
+<table>
+  <thead><tr><th>Gate</th><th>variant A</th><th>variant B</th></tr></thead>
+  <tbody>
+    <tr><td>REPLACE</td><td>REPLACE</td><td>REPLACE</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- REQUIRED: the stage's enumerated failure vocabulary. Renders as exit codes for a
+     command-shaped stage, or as drop/skip reasons for a batch-shaped one. -->
+<h2>REPLACE — exit codes / drop reasons</h2>
+<div class="scroll">
+<table>
+  <thead><tr><th>Reason</th><th>Meaning</th><th>Raised in</th></tr></thead>
+  <tbody>
+    <tr><td><code>REPLACE</code></td><td>REPLACE</td><td>REPLACE</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>What lands on disk</h2>
+<div class="scroll">
+<table>
+  <thead><tr><th>Key / file</th><th>What it holds</th></tr></thead>
+  <tbody>
+    <tr><td><code>REPLACE</code></td><td>REPLACE</td></tr>
+    <tr><td class="muted"><code>REPLACE</code></td><td><strong>not written here</strong> — REPLACE
+      who does write it, and what the default is until they do. Greyed rows for absent-but-expected
+      keys are often the most useful line on the page.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>What this stage deliberately does not do</h2>
+<div class="card">
+  <p class="note" style="margin-top:0">
+    <strong>REPLACE.</strong> One bolded claim per sentence, each naming what does do it
+    instead.<br>
+    <strong>REPLACE.</strong> Bound the stage by what a reader would plausibly assume and be
+    wrong about.</p>
+</div>
+
+<footer>
+  <a href="REPLACE-map.html">← Data flow map</a> ·
+  <a href="index.html">Architecture index</a> ·
+  Siblings: <a href="REPLACE-sibling.html">stage NN — REPLACE</a> ·
+  Companion document: <code>REPLACE.md</code>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>REPLACE — components and channels</title>
+<link rel="stylesheet" href="_pages.css">
+<style>
+  /* Page-local: only this page carries a diagram, so the block stays here until
+     a third page needs it. Inline SVG rather than a rendered image, because the
+     pages are read off disk and an SVG that uses the shared CSS variables
+     follows the reader's theme with no second asset to keep in sync. */
+  .dg{min-width:820px;width:100%;height:auto;display:block;font-family:inherit}
+  .dg .box{fill:var(--card);stroke:var(--line);stroke-width:1.4}
+  .dg .box.det{stroke:var(--det)}
+  .dg .box.agt{stroke:var(--agt)}
+  .dg .box.file{stroke:var(--file)}
+  .dg .box.gate{stroke:var(--gate)}
+  .dg .bound{fill:none;stroke:var(--line);stroke-width:1.4;stroke-dasharray:7 5}
+  .dg text{text-anchor:middle}
+  .dg .t{fill:var(--fg);font-size:13px;font-weight:600}
+  .dg .s{fill:var(--muted);font-size:10.5px}
+  .dg .l{fill:var(--muted);font-size:9.5px}
+  .dg .lend{text-anchor:end}
+  .dg .lstart{text-anchor:start}
+  .dg .link{stroke:var(--muted);stroke-width:1.3;fill:none}
+  .dg .link.dash{stroke-dasharray:5 4}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="crumb"><a href="index.html">Architecture index</a> <span>/</span>
+  <span>Components and channels</span></p>
+
+<h1>REPLACE — components and channels</h1>
+<p class="sub">The structural view: which components exist, what each one owns, and what
+travels between them. Deliberately says nothing about the order work happens in — that is
+<a href="REPLACE-map.html">the pipeline map</a> — and nothing about the boundary, which is
+<a href="system-map.html">system context</a>. Read this one when the question is
+<em>who is responsible for this, and who are they allowed to tell?</em></p>
+
+<!-- THIS PAGE IS NOT A SECOND PIPELINE. If a card here describes what happens after
+     something else, it belongs on the map. A component card answers: what does this own,
+     what is it structurally prevented from owning, and what does it hand to whom. -->
+
+<div class="legend">
+  <span class="tag t-det">■ deterministic — zero LLM</span>
+  <span class="tag t-agt">◆ agentic — model call</span>
+  <span class="tag t-file">▸ store</span>
+  <span class="tag t-gate">▲ backstop — enforces without judging</span>
+</div>
+
+<h2>The map</h2>
+<div class="scroll">
+<!-- LAYOUT RULES, learned the hard way — read before moving a box:
+     · Components run down a centre spine; stores go left; externals go right. The
+       routing channels between the columns are ~70-90px, and every label has to fit
+       inside one.
+     · Two arrows per spine gap: down on the left at one x, up on the right at another,
+       with each label anchored AWAY from the arrow (`lend` left of it, `lstart` right).
+     · A vertical routing lane and a horizontal label in the same channel WILL collide —
+       the lane cuts straight through the text. Either keep labels clear of the lane's x,
+       or drop the label and let the box's own subtitle carry the verb.
+     · Order the right-hand column so each external sits at the same height as the
+       component that uses it. That is what buys short, unbent, unlabelled arrows.
+     · Solid = carries data or control. Dashed = hosting and supervision, which carry no
+       work product. Keep that distinction; it is doing real explanatory work.
+     · min-width on .dg plus the .scroll wrapper: the diagram scrolls on a narrow screen
+       instead of shrinking to unreadable. -->
+<svg class="dg" viewBox="0 0 1000 460" role="img" aria-labelledby="dgt dgd">
+  <title id="dgt">REPLACE — component map</title>
+  <desc id="dgd">REPLACE — one sentence a screen reader can use: which component supervises
+    which, where state is written, and what sits outside the boundary.</desc>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7"
+            orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"></path>
+    </marker>
+  </defs>
+
+  <rect class="bound" x="16" y="44" width="700" height="380" rx="14"></rect>
+  <text class="l lstart" x="28" y="62">REPLACE — the system, and what one instance of it is</text>
+  <text class="l lstart" x="760" y="40">outside the boundary</text>
+
+  <rect class="box file" x="40" y="110" width="190" height="110" rx="9"></rect>
+  <text class="t" x="135" y="152">REPLACE store</text>
+  <text class="s" x="135" y="171">what it holds</text>
+  <text class="s" x="135" y="188">who writes it</text>
+
+  <rect class="box det" x="300" y="80" width="380" height="76" rx="10"></rect>
+  <text class="t" x="490" y="110">REPLACE component A</text>
+  <text class="s" x="490" y="130">one line on what it owns</text>
+
+  <rect class="box agt" x="300" y="200" width="380" height="76" rx="10"></rect>
+  <text class="t" x="490" y="230">REPLACE component B</text>
+  <text class="s" x="490" y="250">one line on what it owns</text>
+
+  <rect class="box det" x="300" y="320" width="380" height="76" rx="10"></rect>
+  <text class="t" x="490" y="350">REPLACE component C</text>
+  <text class="s" x="490" y="370">one line on what it owns</text>
+
+  <path class="link" d="M430,156 L430,196" marker-end="url(#ah)"></path>
+  <text class="l lend" x="420" y="172">REPLACE: what A sends</text>
+  <path class="link" d="M550,196 L550,160" marker-end="url(#ah)"></path>
+  <text class="l lstart" x="560" y="172">REPLACE: what B answers</text>
+
+  <path class="link" d="M430,276 L430,316" marker-end="url(#ah)"></path>
+  <text class="l lend" x="420" y="292">REPLACE</text>
+  <path class="link" d="M550,316 L550,280" marker-end="url(#ah)"></path>
+  <text class="l lstart" x="560" y="292">REPLACE</text>
+
+  <path class="link" d="M230,140 L296,140" marker-end="url(#ah)"></path>
+  <text class="l" x="263" y="134">reads</text>
+  <path class="link" d="M300,210 L234,210" marker-end="url(#ah)"></path>
+  <text class="l" x="267" y="204">writes</text>
+
+  <path class="link dash" d="M680,146 L706,146 L706,372 L684,372" marker-end="url(#ah)"></path>
+  <text class="l" x="700" y="260" transform="rotate(-90 700 260)">supervises the process</text>
+
+  <rect class="box" x="760" y="90" width="220" height="60" rx="9"></rect>
+  <text class="t" x="870" y="115">REPLACE external</text>
+  <text class="s" x="870" y="132">what it is for here</text>
+  <path class="link" d="M680,120 L756,120" marker-end="url(#ah)"></path>
+
+  <rect class="box gate" x="760" y="330" width="220" height="60" rx="9"></rect>
+  <text class="t" x="870" y="355">REPLACE external</text>
+  <text class="s" x="870" y="372">what it is for here</text>
+  <path class="link" d="M680,360 L756,360" marker-end="url(#ah)"></path>
+</svg>
+</div>
+<p class="note">Solid arrows carry data or control. Dashed arrows are hosting and
+supervision — relationships that carry no work product. Everything inside the dashed
+boundary is REPLACE; everything outside it is a system it depends on and does not own.</p>
+
+<h2>REPLACE — the layering claim</h2>
+<p class="sub">Delete this section if the system has no layering. Keep it if there is a rule
+like <em>nothing spans two levels</em>, because it is the claim every other section leans
+on and it is invisible on the pipeline map.</p>
+<div class="scroll">
+<table>
+  <thead><tr><th>Level</th><th>Supervises</th><th>Sees</th><th>Cannot see</th></tr></thead>
+  <tbody>
+    <tr><td><strong>REPLACE</strong></td><td>REPLACE</td><td>REPLACE</td>
+      <td>REPLACE — and say whether that blindness is by design</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Components</h2>
+
+<div class="stage">
+  <div class="rail"><div class="num">1</div><div class="bar"></div></div>
+  <div class="card">
+    <h3>REPLACE component name <span class="tag t-det">■ deterministic</span></h3>
+    <p class="goal"><strong>Goal:</strong> REPLACE — what this component is for, in one or
+      two sentences. Not what it does first; what the system would be missing without it.</p>
+    <p class="note">REPLACE — the non-obvious part. The constraint that shaped it, the thing
+      it deliberately refuses to know, or the mistake its shape prevents. Delete this
+      paragraph rather than filling it with a restatement of the goal line.</p>
+    <div class="io">
+      <div><h4>reads</h4><div class="chips">
+        <span class="chip">REPLACE</span></div></div>
+      <div><h4>persists</h4><div class="chips">
+        <span class="chip new persist">REPLACE</span></div></div>
+      <div><h4>emits</h4><div class="chips">
+        <span class="chip emit">REPLACE → component</span></div></div>
+    </div>
+    <!-- Generated from the manifest's `components` entry by render_cards.py. Write the
+         boundary, invariants and decisions in architecture.json, not here. Delete both
+         sentinels to hand-write the block instead. -->
+    <!-- MID:BEGIN 1 -->
+    <!-- MID:END 1 -->
+  </div>
+</div>
+
+<h2>Channels</h2>
+<p class="sub">Every edge on the map. The column that earns the table is the last one — a
+channel that goes quiet is rarely an outage; it is a component deciding on missing
+evidence and looking healthy while it does.</p>
+<div class="scroll">
+<table>
+  <thead><tr><th>Channel</th><th>From → to</th><th>Carries</th><th>What breaks when it is
+    silent</th></tr></thead>
+  <tbody>
+    <tr><td><strong>REPLACE</strong></td><td>REPLACE → REPLACE</td>
+      <td>REPLACE — the payload, not the mechanism</td>
+      <td>REPLACE — the concrete consequence. "Nothing starts and nothing reports an error"
+        is an answer; "it breaks" is not.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Who writes what</h2>
+<p class="sub">One writer per store, or say which two share it and on what boundary. This is
+the table that makes a divergence between stores a visible fault rather than a merge
+problem.</p>
+<div class="scroll">
+<table>
+  <thead><tr><th>Store</th><th>Written by</th><th>Read by</th><th>The rule that holds
+    it</th></tr></thead>
+  <tbody>
+    <tr><td><strong>REPLACE</strong></td><td>REPLACE</td><td>REPLACE</td>
+      <td>REPLACE — the invariant that keeps two writers from disagreeing</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Deliberately outside</h2>
+<p class="sub">Things a reader expects to find here and will not. Each one left out on
+purpose, with the purpose stated.</p>
+<div class="scroll">
+<table>
+  <thead><tr><th>Not a component</th><th>Why not</th></tr></thead>
+  <tbody>
+    <tr><td><strong>REPLACE</strong></td><td>REPLACE — the reason it is outside, not an
+      apology for its absence.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Decisions</h2>
+<!-- DECINDEX:BEGIN -->
+<!-- DECINDEX:END -->
+
+<h2>Open structural questions</h2>
+<p class="sub">Only the ones about how components connect. The rest belong on the context
+page, and a question restated in two places gets answered in neither.</p>
+<ul>
+  <li>REPLACE — undecided, or deliberately deferred. Say which.</li>
+</ul>
+
+<footer>
+  <a href="index.html">← Architecture index</a> ·
+  Boundary: <a href="system-map.html">system context</a> ·
+  Along: <a href="REPLACE-map.html">the pipeline map</a><br>
+  REPLACE — the cascade rule in one line. Verify with <code>render_cards.py</code>,
+  <code>render_decisions.py</code>, then <code>check_docs.py</code>.
+</footer>
+
+</div>
+<script>
+/* Widens the click target of a linked card to the whole box. Inline on purpose:
+   an external file:// script is not guaranteed to execute in every viewer. */
+document.addEventListener("click", function (e) {
+  var card = e.target.closest && e.target.closest(".card[data-href]");
+  if (!card) return;
+  if (e.target.closest("a")) return;
+  var sel = window.getSelection();
+  if (sel && String(sel).length > 0) return;
+  window.location.href = card.getAttribute("data-href");
+});
+</script>
+</body>
+</html>

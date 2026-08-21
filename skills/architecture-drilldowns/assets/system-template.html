@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>REPLACE — system context</title>
+<link rel="stylesheet" href="_pages.css">
+</head>
+<body>
+<div class="wrap">
+
+<p class="crumb"><a href="index.html">Architecture index</a> <span>/</span>
+  <span>System context</span></p>
+
+<h1>REPLACE — system context</h1>
+<p class="sub">REPLACE with one sentence naming what this system is and who uses it.
+This page is deliberately one page: the boundary, the external systems it depends on,
+and an index of the pipelines inside it. Everything about how a pipeline works is one
+level down.</p>
+
+<!-- ONE PAGE. This level exists to answer three questions and stop: what is inside the
+     boundary, what is outside it, and where do I go next. If a section here starts
+     explaining how something works, it belongs on a map or a drill-down. -->
+
+<h2>What this system is for</h2>
+<p class="goal"><strong>Goal:</strong> REPLACE — two or three sentences on what the system
+  delivers and to whom. Say what would be missing if it did not exist. This is the only
+  place in the doc set where the whole system's purpose is stated, so do not spend it
+  restating the pipeline stages.</p>
+
+<h2>Pipelines</h2>
+<p class="sub">Each one has its own map. Add a row when a new pipeline gets a map; the
+  manifest's <code>pipelines</code> list is checked against these links.</p>
+
+<div class="stage">
+  <div class="rail"><div class="num">▸</div><div class="bar"></div></div>
+  <div class="card" data-href="REPLACE-map.html">
+    <h3><a href="REPLACE-map.html">REPLACE pipeline name</a><span class="caret">↗</span>
+      <span class="tag t-det">■ REPLACE — N stages</span></h3>
+    <p class="goal"><strong>Goal:</strong> REPLACE — what this pipeline is for. One or two
+      sentences, same rule as a stage card.</p>
+    <p class="note">REPLACE — the entry command, and the one thing a reader should know
+      before opening the map.</p>
+  </div>
+</div>
+
+<h2>External systems</h2>
+<p class="sub">Everything outside the boundary that the system depends on or writes to.
+  Each row is a thing that can fail, cost money, or change under you without a commit.</p>
+<div class="scroll">
+<table>
+  <thead><tr><th>System</th><th>What it is for</th><th>Used by</th><th>What breaks if it is
+    gone</th><th>Decision</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>REPLACE — e.g. a model API</strong></td>
+      <td>REPLACE — its purpose here, not its marketing description.</td>
+      <td>REPLACE stage(s)</td>
+      <td>REPLACE — the honest blast radius. "Nothing until the next run" and "the whole
+        pipeline stops" are very different answers.</td>
+      <td><a class="dec" href="decisions/pages/001-REPLACE.html">◇ 001</a></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Pinned configuration</h2>
+<p class="sub">Values that were calibrated rather than chosen, and that other things now
+  depend on. A number here is load-bearing: state where it came from, because the next
+  reader's instinct will be to round it.</p>
+<div class="scroll">
+<table>
+  <thead><tr><th>Setting</th><th>Value</th><th>Why this value</th></tr></thead>
+  <tbody>
+    <tr><td><code>REPLACE</code></td><td><code>REPLACE</code></td>
+      <td>REPLACE — the measurement or constraint that fixed it. If it was a guess, say
+        so; a guess labelled as a guess is safe to change.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Decisions</h2>
+<div class="decs">
+  <a class="dec" href="decisions/pages/001-REPLACE.html">◇ 001 — REPLACE</a>
+</div>
+
+<h2>Open questions</h2>
+<ul>
+  <li>REPLACE — say whether it is undecided or deliberately deferred, and on what.</li>
+</ul>
+
+<footer>
+  <a href="index.html">← Architecture index</a> ·
+  Across: <a href="component-map.html">components and channels</a> ·
+  Along: <a href="REPLACE-map.html">the pipeline map</a><br>
+  REPLACE — the cascade rule, in one line: what must be updated together when this
+  changes. Verify with <code>check_docs.py</code>.
+</footer>
+
+</div>
+<script>
+/* Widens the click target of a linked card to the whole box. Inline on purpose:
+   an external file:// script is not guaranteed to execute in every viewer. */
+document.addEventListener("click", function (e) {
+  var card = e.target.closest && e.target.closest(".card[data-href]");
+  if (!card) return;
+  if (e.target.closest("a")) return;
+  var sel = window.getSelection();
+  if (sel && String(sel).length > 0) return;
+  window.location.href = card.getAttribute("data-href");
+});
+</script>
+</body>
+</html>

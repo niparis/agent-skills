@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>REPLACE — pipeline data flow</title>
+<link rel="stylesheet" href="_pages.css">
+</head>
+<body>
+<div class="wrap">
+
+<p class="crumb"><a href="index.html">Architecture index</a> <span>/</span>
+  <span>REPLACE pipeline</span></p>
+
+<h1>REPLACE — data flow: files, commands and states</h1>
+<p class="sub">REPLACE with one sentence on what this map is for. Then: read top to bottom, each
+stage consumes the artifacts above it and writes the ones marked new. Companion to
+<code>REPLACE/other-doc.md</code>.<br>
+A stage whose title carries a <span class="caret" style="opacity:1">↗</span> has a second page one
+level deeper. Click anywhere on the card.</p>
+
+<div class="legend">
+  <span class="tag t-det">■ deterministic — zero LLM</span>
+  <span class="tag t-agt">◆ agentic — model call</span>
+  <span class="tag t-gate">▲ gate — can stop the run</span>
+  <span class="tag t-file">▸ artifact</span>
+</div>
+
+<!-- VIEW BAR — delete this block entirely if the manifest declares no views.
+     Each button's data-view matches a view id in architecture.json; each stage
+     carries data-views listing the views it belongs to. One view at a time. -->
+<div class="viewbar" role="group" aria-label="Filter stages by view">
+  <button class="viewbtn" type="button" data-view="all" aria-pressed="true">All stages</button>
+  <button class="viewbtn" type="button" data-view="REPLACE-view-id" aria-pressed="false">REPLACE view name</button>
+</div>
+
+<h2>REPLACE — phase heading, e.g. "Setup — once per project"</h2>
+
+<!-- A stage WITHOUT a drill-down: plain card, with the mid-level <details> doing
+     the work a drill-down would. Most stages should look like this. -->
+<div class="stage" data-views="REPLACE-view-id">
+  <div class="rail"><div class="num">0</div><div class="bar"></div></div>
+  <div class="card">
+    <h3>REPLACE stage name <span class="tag t-det">■ deterministic</span></h3>
+    <!-- GOAL FIRST, always. One or two sentences: what this stage is FOR and why the
+         pipeline needs it — what would be broken or missing without it, what the unit of
+         work is, or what the hard part is. Never a step list, a tool name or a call count;
+         never a restatement of the command or the chips below. -->
+    <p class="goal"><strong>Goal:</strong> REPLACE — what this stage is for, and why the
+      pipeline needs it.</p>
+    <div class="cmd">REPLACE the exact command, copy-pasteable</div>
+    <p class="note">REPLACE: how it works, and any non-obvious behaviour a reader would get
+      wrong. State surprises explicitly.</p>
+    <!-- THREE VERBS, not two. reads = existing durable data or supplied input.
+         persists = a durable write that outlives the run. emits = a payload handed
+         to the next stage that nobody stores. Drop any section that is empty. -->
+    <div class="io">
+      <div><h4>reads</h4><div class="chips">
+        <span class="chip">REPLACE/input.ext</span></div></div>
+      <div><h4>persists</h4><div class="chips">
+        <span class="chip new persist">REPLACE/output.ext</span></div></div>
+      <div><h4>emits</h4><div class="chips">
+        <span class="chip emit">REPLACE payload → next stage</span></div></div>
+    </div>
+    <!-- MID LEVEL — the level between a card and a whole page. A stage with no
+         drill-down still owes the reader its boundary, its invariants and the
+         decisions that shaped it. Zero JavaScript, so it works over file://.
+         Delete the block if the stage has a drill-down carrying all of this. -->
+    <details class="more">
+      <summary>Boundary, invariants and decisions</summary>
+      <p class="note"><strong>Does not:</strong> REPLACE — the responsibilities this stage
+        explicitly does not take on. This is where scope creep gets caught, so name the
+        neighbouring concern a reader would assume lives here and does not.</p>
+      <div class="inv">
+        <h4>invariants</h4>
+        <ul>
+          <li>REPLACE — a claim that must hold for this stage to be correct, written so a
+            reader can check the code against it.</li>
+        </ul>
+      </div>
+      <div class="decs">
+        <a class="dec" href="decisions/pages/001-REPLACE.html">◇ 001 — REPLACE the decision</a>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- A stage WITH a drill-down: data-href on the card, anchor + caret in the title.
+     The inline script at the bottom widens the click target to the whole box. -->
+<div class="stage" data-views="REPLACE-view-id">
+  <div class="rail"><div class="num">1</div></div>
+  <div class="card" data-href="stage-01-REPLACE.html">
+    <h3><a href="stage-01-REPLACE.html">REPLACE stage name</a><span class="caret">↗</span>
+      <span class="tag t-agt">◆ REPLACE agent role</span></h3>
+    <p class="goal"><strong>Goal:</strong> REPLACE — what this stage is for, and why the
+      pipeline needs it.</p>
+    <div class="cmd">REPLACE the exact command</div>
+    <p class="note">REPLACE: the summary. Internals belong on the drill-down, not here.</p>
+    <div class="io">
+      <div><h4>reads</h4><div class="chips">
+        <span class="chip">REPLACE</span></div></div>
+      <div><h4>persists</h4><div class="chips">
+        <span class="chip new persist">REPLACE</span></div></div>
+    </div>
+  </div>
+</div>
+
+<h2>Vocabulary</h2>
+<div class="scroll">
+<table>
+  <thead><tr><th>Term</th><th>What it means here</th></tr></thead>
+  <tbody>
+    <tr><td><strong>REPLACE term</strong></td><td>Define every word this codebase uses in a
+      non-standard sense, and say what it is <em>not</em>.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>File index</h2>
+<div class="scroll">
+<table>
+  <thead><tr><th>File</th><th>Layer</th><th>Written by</th><th>Contract</th><th>Committed</th></tr></thead>
+  <tbody>
+    <tr><td><code>REPLACE/path</code></td><td>REPLACE</td><td>REPLACE stage</td>
+      <td>declared / <span class="muted">none</span></td><td>yes / no — gitignored</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Decisions</h2>
+<p class="sub">The records that shaped this pipeline. A card links the ones that shaped it;
+this index is the whole set. Never delete a superseded record — link forward to its
+replacement, and stop citing it from cards.</p>
+<div class="decs">
+  <a class="dec" href="decisions/pages/001-REPLACE.html">◇ 001 — REPLACE the decision</a>
+</div>
+
+<h2>Open questions</h2>
+<ul>
+  <li>REPLACE — a decision not yet made, or one deliberately deferred. Say which:
+    "deferred until X is measured" is a different state from "nobody has decided".</li>
+</ul>
+
+<footer>
+  <a href="index.html">← Architecture index</a> ·
+  Boundary: <a href="system-map.html">system context</a> ·
+  Across: <a href="component-map.html">components and channels</a> ·
+  Inside a stage: <a href="stage-NN-REPLACE.html">stage NN — REPLACE</a><br>
+  REPLACE — the one-line rule that governs these artifacts.
+  Companion document: <code>REPLACE.md</code>
+</footer>
+
+</div>
+<script>
+/* Two behaviours, both inline on purpose: an external file:// script fetches
+   200 OK and then silently never executes in some viewers. */
+
+/* 1. Widens the click target of a drill-down card to the whole box. The title is
+      already a real <a>; this only adds the hit area. */
+document.addEventListener("click", function (e) {
+  var card = e.target.closest && e.target.closest(".card[data-href]");
+  if (!card) return;
+  if (e.target.closest("a")) return;              // a real link wins
+  var sel = window.getSelection();                 // reading, not navigating
+  if (sel && String(sel).length > 0) return;
+  window.location.href = card.getAttribute("data-href");
+});
+
+/* 2. View filter. Delete with the .viewbar block if the map has no views.
+      The matching is done here rather than in CSS because a selector cannot ask
+      whether one attribute's value appears inside another's. With JS off nothing
+      is hidden and every stage shows, which is the right fallback. */
+document.addEventListener("click", function (e) {
+  var btn = e.target.closest && e.target.closest(".viewbtn");
+  if (!btn) return;
+  var view = btn.getAttribute("data-view");
+  document.querySelectorAll(".viewbtn").forEach(function (b) {
+    b.setAttribute("aria-pressed", String(b === btn));
+  });
+  document.querySelectorAll(".stage").forEach(function (s) {
+    var views = (s.getAttribute("data-views") || "").split(/\s+/);
+    s.hidden = view !== "all" && views.indexOf(view) === -1;
+  });
+  /* Section headings for a phase with nothing left in it would otherwise dangle. */
+  document.querySelectorAll("h2[data-views]").forEach(function (h) {
+    var views = (h.getAttribute("data-views") || "").split(/\s+/);
+    h.hidden = view !== "all" && views.indexOf(view) === -1;
+  });
+});
+</script>
+</body>
+</html>

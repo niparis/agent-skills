@@ -26,17 +26,16 @@ docs/
         system-functional.md
             -  main architecture decisions made for the project
             - includes overall system context, functional architecture, runtime architecture, data architecture, and optionally integration and deployment
-        components-interfaces.md
-            - how responsibilities are divided between modules/components, what each owns, what it exposes, and what patterns constrain its implementation.
-            - how do we organise the code. What each module or component is responsible for, what code patterns it follows, what interface it exposes to other modules
         agent-design.md 
             - OPTIONAL : only if the code base includes some agents
             - agents, skills, policies, memory, evaluation
     ADR/
         001-abc-xyz.md          >> why and how do we perform changes
     visual/
-        abc.html                >> visual representation of the architecture performed by the skill 
-        architecture-drilldowns
+        abc.html                >> visual representation of the architecture, produced by the
+                                   architecture-drilldowns skill. This is where component
+                                   ownership and the process/library/store split are documented -
+                                   as maps, not as prose. See "Components" below.
     specs/                      >> here OR in a tracker (usually described in AGENTS.md or architecture.md)
 
 ## Product 
@@ -146,32 +145,32 @@ Where does everything run?
 What are the important deployment and trust boundaries?
 ```
 
-## Components and Interfaces
+## Components
 
-Describes how that architecture is realised in the codebase: modules/components, their responsibilities and non-responsibilities, interfaces, dependencies, implementation patterns, and invariants.
+**There is no components-interfaces.md.** We tried it and deleted it.
 
-```
-List of Components
-...
+A markdown file with one Responsibility / Does not own / Interface / Dependencies / Patterns
+block per component fails for one reason: it applies the same template, at the same altitude,
+to things that are not the same kind of thing. A daemon, a shared library, a database table
+and a four-line wrapper around a binary all get identical headings and roughly thirty lines
+each, so they read as peers. A reader then cannot tell which ones run, which ones are code
+inside something else, and which ones are not code at all - and they ask exactly those
+questions, one after another, because the document caused them.
 
-Component A
+Component ownership and the runtime split are documented visually instead, by the
+`architecture-drilldowns` skill, in `docs/visual/`:
 
-Responsibility:
-...
+| Page | Answers |
+|---|---|
+| `component-map.html` | Which components exist, what each owns, what it is prevented from owning, what travels between them |
+| `process-map.html` | What has a PID, what is only linked into something that does, what crosses a process boundary |
 
-Does not own:
-...
+The process map carries the altitude rule the prose could not: a box either runs or it does
+not, and a box drawn inside another box is code in that process rather than a peer of it.
 
-Interface:
-...
-
-Dependencies:
-...
-
-Patterns:
-...
-
-```
+Whatever is genuinely normative - ordering, invariants, contracts, exact operations - belongs
+in `docs/specs/`, not in a component document. That is where it survived when
+components-interfaces.md was deleted.
 
 
 ## ADR

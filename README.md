@@ -22,6 +22,7 @@ Backend architecture, code quality, and delivery. Reference disciplines the agen
 
 **Model-invoked**
 
+- **[architecture-drilldowns](./skills/architecture-drilldowns/SKILL.md)**: Builds layered architecture docs as self-contained HTML plus a checkable manifest — system context, component ownership, a process map of what actually runs, per-stage drill-downs, and decision records. Also audits an existing doc set for drift from the code.
 - **[architecture-patterns](./skills/architecture-patterns/SKILL.md)**: Implements Clean Architecture, Hexagonal Architecture, and DDD for backend systems — inward dependencies, framework-free domain code, thin controllers.
 - **[boundary-validation](./skills/boundary-validation/SKILL.md)**: Enforces the Two-Layer Boundary policy for API payloads, keeping DTO contract checks separate from domain business rules.
 - **[clean-architecture-python](./skills/implementing-clean-architecture/SKILL.md)**: Implements Clean Architecture in advanced Python codebases — use cases, ports, adapters, and composition roots kept framework-free.

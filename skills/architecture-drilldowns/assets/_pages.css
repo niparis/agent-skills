@@ -1,0 +1,215 @@
+/* Shared look for every architecture doc page in one directory: the zoom-out
+   map and each per-stage drill-down link this file rather than carrying a copy.
+   Change the tag vocabulary or the rail here and it lands on all of them.
+
+   Loaded as a relative <link> from the same directory. These pages are read
+   straight off disk over file://, so there is no build step and no absolute
+   path to break. External CSS over file:// works; external JS is NOT reliably
+   executed, so keep the little script a map needs inline in the page. */
+
+:root{
+  --bg:#fbfbfa; --fg:#1b1b19; --muted:#6b6b66; --line:#e2e1dd; --card:#fff;
+  --det:#2f6f4f; --det-bg:#e8f3ec;      /* deterministic */
+  --agt:#7a4bbd; --agt-bg:#f0e9fb;      /* agentic */
+  --gate:#b4501a; --gate-bg:#fbeadf;    /* gate */
+  --file:#2b5c8a; --file-bg:#e7f0f8;    /* artifact */
+  --adr:#8a6b1f; --adr-bg:#f7efdb;      /* decision record */
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{ --bg:#141414; --fg:#e9e8e4; --muted:#9b9a94; --line:#2c2c2a; --card:#1c1c1b;
+    --det:#7fd1a5; --det-bg:#16302456; --agt:#c4a4f5; --agt-bg:#2a1f3d56;
+    --gate:#f0a271; --gate-bg:#3a220f56; --file:#8fbde8; --file-bg:#12283c56;
+    --adr:#e0c274; --adr-bg:#33290f56; }
+}
+:root[data-theme="dark"]{ --bg:#141414; --fg:#e9e8e4; --muted:#9b9a94; --line:#2c2c2a; --card:#1c1c1b;
+    --det:#7fd1a5; --det-bg:#16302456; --agt:#c4a4f5; --agt-bg:#2a1f3d56;
+    --gate:#f0a271; --gate-bg:#3a220f56; --file:#8fbde8; --file-bg:#12283c56;
+    --adr:#e0c274; --adr-bg:#33290f56; }
+:root[data-theme="light"]{ --bg:#fbfbfa; --fg:#1b1b19; --muted:#6b6b66; --line:#e2e1dd; --card:#fff;
+    --det:#2f6f4f; --det-bg:#e8f3ec; --agt:#7a4bbd; --agt-bg:#f0e9fb;
+    --gate:#b4501a; --gate-bg:#fbeadf; --file:#2b5c8a; --file-bg:#e7f0f8;
+    --adr:#8a6b1f; --adr-bg:#f7efdb; }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:15px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 20px 80px}
+h1{font-size:26px;margin:0 0 6px;letter-spacing:-.02em}
+/* No measure cap on .sub or .goal: .wrap's 1120px IS the measure, and .note
+   inside a card has always run the card's full width. A ch-based cap on these
+   two made them wrap ~60% of the way across on a wide screen, which reads as a
+   layout bug sitting directly above full-bleed prose rather than as a choice. */
+.sub{color:var(--muted);margin:0 0 26px}
+h2{font-size:14px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);
+   margin:38px 0 14px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+code{font-family:var(--mono);font-size:.87em}
+a{color:var(--file)}
+
+/* breadcrumb — every page except the index, which is the root it points at.
+   Reads root → current, ancestors linked, current page plain text. The "←" is
+   NOT here: it belongs on the footer's back link, where a reader who has just
+   finished the page is looking. A crumb with an arrow in the middle of it reads
+   as a direction rather than a path. */
+.crumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin:0 0 18px}
+.crumb a{text-decoration:none;border-bottom:1px solid var(--line)}
+.crumb a:hover{border-bottom-color:currentColor}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;
+  padding:3px 9px;border-radius:99px;white-space:nowrap}
+.t-det{color:var(--det);background:var(--det-bg)}
+.t-agt{color:var(--agt);background:var(--agt-bg)}
+.t-gate{color:var(--gate);background:var(--gate-bg)}
+.t-file{color:var(--file);background:var(--file-bg)}
+
+/* numbered rail: stages on the map, decisions on a drill-down */
+.stage{display:grid;grid-template-columns:34px 1fr;gap:14px;margin:0 0 6px}
+.rail{position:relative;display:flex;flex-direction:column;align-items:center}
+.num{width:26px;height:26px;border-radius:50%;background:var(--card);border:1px solid var(--line);
+  display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--muted);flex:none}
+.rail .bar{flex:1;width:2px;background:var(--line);margin:4px 0 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:11px;
+  padding:13px 15px;margin-bottom:12px;min-width:0}
+.card h3{margin:0 0 3px;font-size:15px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.cmd{font-family:var(--mono);font-size:12.5px;background:var(--file-bg);color:var(--file);
+  padding:5px 9px;border-radius:6px;margin:8px 0;overflow-x:auto;white-space:pre}
+/* The goal line: what the stage is FOR, before any word about how it works.
+   Full-strength text against the muted .note below it, so the purpose reads
+   first when the eye lands on a card. One or two sentences — it repeats on
+   every card, so it carries no border, background or icon of its own. */
+.goal{font-size:14px;color:var(--fg);margin:5px 0 0}
+.note{color:var(--muted);font-size:13px;margin:6px 0 0}
+/* Two sections (reads/persists) or three (reads/persists/emits) — auto-fit so a
+   third verb sits beside the other two instead of wrapping to a lonely second
+   row, and all of them collapse to one column on a narrow screen without a
+   breakpoint per count. */
+.io{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-top:10px}
+@media(max-width:640px){.io{grid-template-columns:1fr}}
+.io h4{margin:0 0 5px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-family:var(--mono);font-size:11.5px;padding:2px 7px;border-radius:5px;
+  background:var(--file-bg);color:var(--file);border:1px solid transparent;word-break:break-all}
+.chip.new{border-color:currentColor;font-weight:600}
+
+/* A card that drills down. The whole box is the target; the affordance is the
+   card lifting on hover plus a quiet caret on the title, rather than a button
+   repeated down the page. The title stays a real anchor so the link is
+   keyboard-reachable and right-clickable. The box click is handled by a small
+   INLINE script in the page — external file:// scripts fetch but do not execute
+   in every viewer, so the hit-area widening must not depend on one. */
+.card[data-href]{cursor:pointer;transition:border-color .12s ease,background-color .12s ease,transform .12s ease}
+.card[data-href]:hover{border-color:var(--file);background:var(--file-bg);transform:translateY(-1px)}
+.card[data-href]:hover .caret{opacity:1}
+.card[data-href] h3 a{color:inherit;text-decoration:none}
+.card[data-href]:focus-within{border-color:var(--file);outline:2px solid var(--file);outline-offset:2px}
+.caret{font-size:12px;color:var(--file);opacity:.45;transition:opacity .12s ease;margin-left:2px}
+
+/* code reference: which function a step actually is. Symbol, never a line
+   number — line numbers rot silently, a symbol name fails loudly under grep. */
+.ref{display:inline-block;font-family:var(--mono);font-size:11.5px;color:var(--muted);
+  border:1px dashed var(--line);border-radius:5px;padding:1px 6px;white-space:nowrap}
+.refs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}
+
+/* contract panel: rules a stage holds a model to, or a deterministic rule set */
+.panel{border:1px solid var(--line);border-left:3px solid var(--agt);border-radius:8px;
+  background:var(--agt-bg);padding:11px 13px;margin:10px 0 0}
+.panel.det{border-left-color:var(--det);background:var(--det-bg)}
+.panel h4{margin:0 0 6px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.panel ul{margin:0;padding-left:18px;font-size:13px}
+.panel li{margin:3px 0}
+.panel li b{font-family:var(--mono);font-weight:600;font-size:.92em}
+
+/* ── flow verbs ───────────────────────────────────────────────────────────────
+   Three verbs, not two. `reads` is existing durable data or supplied input;
+   `persists` is a durable write that outlives the run; `emits` is a transient
+   payload handed to the next stage and persisted by nobody. Collapsing the last
+   two into "writes" is the mistake this distinction exists to prevent — it makes
+   a handoff look like a stored artifact, and readers then go looking on disk for
+   something that was never there. `.chip.new` still marks first creation. */
+.chip.persist{border-color:var(--det);color:var(--det);background:var(--det-bg)}
+.chip.emit{border-style:dashed;border-color:var(--agt);color:var(--agt);background:var(--agt-bg)}
+
+/* ── decision records ─────────────────────────────────────────────────────────
+   A `.dec` chip links the record that justifies a card; `.t-adr` badges the
+   record's own status on its rendered page. A superseded record still renders —
+   never deleted, only linked forward — so its badge has to look different from
+   an accepted one at a glance. */
+.t-adr{color:var(--adr);background:var(--adr-bg)}
+.adr-superseded,.adr-deprecated,.adr-rejected{color:var(--gate);background:var(--gate-bg)}
+.adr-proposed,.adr-unknown{color:var(--muted);background:transparent;border:1px dashed var(--line)}
+.dec{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;
+  color:var(--adr);background:var(--adr-bg);border-radius:5px;padding:2px 7px;text-decoration:none}
+.dec:hover{text-decoration:underline}
+.decs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}
+
+/* A superseded record still appears in the decision index — records are never
+   deleted — so the index has to say so, or it presents overturned reasoning as
+   current. Higher specificity than `.dec` on purpose: `.dec` is defined after
+   the `.adr-*` block and would otherwise win. */
+.dec.adr-superseded,.dec.adr-deprecated,.dec.adr-rejected{color:var(--gate);background:var(--gate-bg)}
+.dec .why{font-weight:500;opacity:.8}
+.decision h2{margin-top:30px}
+.decision h3{font-size:14px;margin:20px 0 6px}
+.decision p,.decision li{font-size:14px}
+.decision ul,.decision ol{padding-left:20px}
+.decision li{margin:4px 0}
+blockquote{margin:10px 0;padding:2px 0 2px 13px;border-left:3px solid var(--line);color:var(--muted)}
+pre{font-family:var(--mono);font-size:12.5px;background:var(--card);border:1px solid var(--line);
+  border-radius:8px;padding:11px 13px;overflow-x:auto}
+pre code{font-size:inherit}
+
+/* ── invariants ───────────────────────────────────────────────────────────────
+   The rules that must hold for the node to be correct — the load-bearing claims
+   a reader should be able to check the code against. Kept visually quiet and
+   scannable: this block earns its place by being complete, not by being loud. */
+.inv{margin:10px 0 0;padding:9px 12px;border:1px solid var(--line);border-left:3px solid var(--gate);
+  border-radius:8px;background:var(--card)}
+.inv h4{margin:0 0 5px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.inv ul{margin:0;padding-left:17px;font-size:13px}
+.inv li{margin:3px 0}
+.inv li code{color:var(--gate)}
+
+/* ── mid-level disclosure ─────────────────────────────────────────────────────
+   Between a card and a whole drill-down page. A stage that does not justify its
+   own page can still carry its contract, invariants and decision links here,
+   which is how the map stays honest about stages nobody has drilled into yet.
+
+   <details> rather than a popover: zero JavaScript, so it works over file://
+   where an external script silently never runs, and it is keyboard-reachable
+   and findable by in-page search even while collapsed in most browsers. */
+details.more{margin:10px 0 0;border-top:1px solid var(--line);padding-top:8px}
+details.more>summary{cursor:pointer;font-size:12px;font-weight:600;color:var(--muted);
+  list-style:none;display:flex;align-items:center;gap:6px}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::before{content:"▸";font-size:10px;transition:transform .12s ease}
+details[open].more>summary::before{transform:rotate(90deg)}
+details.more>summary:hover{color:var(--fg)}
+details.more[open]>summary{margin-bottom:8px}
+
+/* ── view filter ──────────────────────────────────────────────────────────────
+   One model, several readings of it. A stage declares the views it belongs to in
+   `data-views`, and the bar filters to one view at a time.
+
+   The matching is done by the page's inline script setting `hidden`, NOT by a
+   selector: CSS cannot ask whether one attribute's value appears inside
+   another's, so any pure-CSS version has to hardcode every view name — which
+   cannot live in a shared stylesheet that does not know the project's views.
+   With JavaScript off nothing is hidden and the page shows every stage, which is
+   the right fallback for a document. */
+.viewbar{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px}
+.viewbtn{font:inherit;font-size:12px;font-weight:600;cursor:pointer;padding:4px 11px;
+  border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--muted)}
+.viewbtn:hover{color:var(--fg);border-color:var(--muted)}
+.viewbtn[aria-pressed="true"]{color:var(--bg);background:var(--fg);border-color:var(--fg)}
+/* .stage sets display:grid, which outranks the UA rule for [hidden]. */
+.stage[hidden]{display:none}
+
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600}
+td code{color:var(--file)}
+.muted{color:var(--muted)}
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:12.5px}
