@@ -1,0 +1,302 @@
+/* ============================================================
+   AGENTIC ARCHITECTURE — COMPONENTS
+   Reusable component vocabulary for architecture decks.
+   Requires colors_and_type.css (tokens + type roles).
+   ============================================================ */
+
+/* ── PILLS & TAGS ─────────────────────────────────────────── */
+
+/* Concept pill — mono, outlined, fully rounded */
+.pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 5px 14px;
+  background: transparent;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* Filled badge — navy, white text, squared. Non-negotiable. */
+.pill-filled {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--navy);
+  border: none;
+  border-radius: var(--r-sm);
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+/* Ghost / outline badge — metadata marker */
+.pill-ghost {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 3px 8px;
+  background: transparent;
+  white-space: nowrap;
+}
+
+/* Metadata badge — mono, light fill, small caps */
+.badge-label {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 2px 6px;
+  background: var(--surface);
+  white-space: nowrap;
+}
+
+/* Architecture layer badge — navy (central) */
+.arch-badge-center {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--navy);
+  color: #ffffff;
+  border-radius: var(--r-sm);
+  padding: 2px 7px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+/* Architecture layer badge — green (federated) */
+.arch-badge-fed {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--g-primary);
+  color: #ffffff;
+  border-radius: var(--r-sm);
+  padding: 2px 7px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+/* ── LEGEND ───────────────────────────────────────────────── */
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.dot-navy  { background: var(--navy); }
+.dot-green { background: var(--g-primary); }
+
+/* ── DUAL BAR (signature footer) ──────────────────────────── */
+.dual-bar {
+  display: flex;
+  width: 100%;
+  height: 2px;
+}
+.dual-bar-navy  { flex: 1; background: var(--bar-blue); }
+.dual-bar-green { flex: 1; background: var(--bar-green); }
+/* Bare .dual-bar with no children also renders split via ::before/::after */
+.dual-bar:empty::before { content:''; flex:1; background: var(--bar-blue); }
+.dual-bar:empty::after  { content:''; flex:1; background: var(--bar-green); }
+
+/* ── CARDS ────────────────────────────────────────────────── */
+
+/* Process step card */
+.process-card {
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px;
+  background: var(--surface-card);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+.process-card-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+.process-card-footer {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 0.5px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Three-column information card */
+.col-card {
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface-card);
+  padding: 16px;
+}
+.col-card-header {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 0.5px solid var(--border-subtle);
+}
+.col-card-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+.col-card-body {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.col-card-body strong { font-weight: 600; color: var(--text); }
+
+/* Architecture layer row */
+.arch-row {
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  background: var(--surface-card);
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.arch-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  width: 72px;
+  flex-shrink: 0;
+  padding-top: 3px;
+}
+.arch-layer {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  width: 130px;
+  flex-shrink: 0;
+  line-height: 1.3;
+}
+.arch-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+}
+.arch-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 3px 8px;
+  background: var(--bg);
+}
+.arch-tag-bold {
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface);
+}
+
+/* ── DECISION TABLE ───────────────────────────────────────── */
+.ds-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.ds-table thead tr { background: var(--navy); }
+.ds-table thead td {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+}
+.ds-table tbody tr { border-bottom: 0.5px solid var(--border-subtle); }
+.ds-table tbody tr:last-child { border-bottom: none; }
+.ds-table tbody td {
+  padding: 10px 14px;
+  color: var(--text-secondary);
+  vertical-align: top;
+  line-height: 1.5;
+  font-weight: 300;
+}
+.ds-table tbody td:first-child { font-weight: 500; color: var(--text); }
+.ds-table tbody td.col-rejected { color: var(--red); font-size: 11px; }
+.ds-table tbody td strong { font-weight: 600; color: var(--text); }
+
+/* ── LAYOUT HELPERS ───────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}

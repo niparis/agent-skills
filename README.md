@@ -22,7 +22,6 @@ Backend architecture, code quality, and delivery. Reference disciplines the agen
 
 **Model-invoked**
 
-- **[architecture-drilldowns](./skills/architecture-drilldowns/SKILL.md)**: Builds layered architecture docs as self-contained HTML plus a checkable manifest — system context, component ownership, a process map of what actually runs, per-stage drill-downs, and decision records. Also audits an existing doc set for drift from the code.
 - **[architecture-patterns](./skills/architecture-patterns/SKILL.md)**: Implements Clean Architecture, Hexagonal Architecture, and DDD for backend systems — inward dependencies, framework-free domain code, thin controllers.
 - **[boundary-validation](./skills/boundary-validation/SKILL.md)**: Enforces the Two-Layer Boundary policy for API payloads, keeping DTO contract checks separate from domain business rules.
 - **[clean-architecture-python](./skills/implementing-clean-architecture/SKILL.md)**: Implements Clean Architecture in advanced Python codebases — use cases, ports, adapters, and composition roots kept framework-free.
@@ -33,10 +32,15 @@ Backend architecture, code quality, and delivery. Reference disciplines the agen
 - **[pydantic-models-py](./skills/pydantic-models-py/SKILL.md)**: Defines Pydantic v2 models with the Base/Create/Update/Response/InDB pattern for clean API schemas.
 - **[vercel-react-best-practices](./skills/react-best-practices/SKILL.md)**: Vercel's React/Next.js performance rules — waterfall elimination, bundle control, fetch strategy, rerender efficiency.
 - **[web-design-guidelines](./skills/web-design-guidelines/SKILL.md)**: Reviews UI implementations against current web interface and accessibility guidelines, reporting only materially impactful issues.
-- **[code-review](./skills/code-review/SKILL.md)**: Structured, checklist- and guideline-driven code review with severity-ranked findings.
-- **[docs-review](./skills/docs-review/SKILL.md)**: Reviews documentation changes against Metabase-style writing quality standards.
 - **[deployment-pipeline-design](./skills/deployment-pipeline-design/SKILL.md)**: Designs multi-stage CI/CD pipelines — approval gates, rollout strategy, explicit rollback triggers.
 - **[github-actions-templates](./skills/github-actions-templates/SKILL.md)**: Builds production-grade GitHub Actions workflows with pinned actions, least-privilege permissions, secret-safe config.
+
+## Implementation
+
+
+## Workflow 
+
+- **[code-review](./skills/code-review/SKILL.md)**: Structured, checklist- and guideline-driven code review with severity-ranked findings.
 - **[git-master](./skills/git-master/SKILL.md)**: Advanced Git workflows — atomic commit splitting, rebases, blame/bisect history search, PR prep.
 
 ### Writing
@@ -45,6 +49,7 @@ Documentation and prose, from one-off setup to ongoing editorial discipline.
 
 **User-invoked**
 
+- **[docs-review](./skills/docs-review/SKILL.md)**: Reviews documentation changes against Metabase-style writing quality standards.
 - **[comprehensive-documenter](./skills/comprehensive-documenter/SKILL.md)**: Generates accurate, maintainable, why-first documentation for an entire codebase, module, or API.
 - **[apply-project-agent-template](./skills/apply-project-agent-template/SKILL.md)**: Creates or updates a lean `AGENTS.md`/`CLAUDE.md` from a standard template.
 - **[specs-arch-modules](./skills/specs-arch-modules/SKILL.md)**: Keeps architecture docs (product vision, system/functional architecture, component ownership, ADRs) in a fixed `docs/` layout, filing new information in the right file and auditing existing docs against it.

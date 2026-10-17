@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic Architecture — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   AGENTIC ARCHITECTURE DESIGN SYSTEM
+   For use in Claude Artifacts / Claude Design
+   ============================================================
+
+   GENERATED FROM: agentic-architecture 5.html (slides 1–9)
+   
+   FONTS:
+     Display: DM Sans (Google Fonts)
+     Mono:    DM Mono (Google Fonts)
+   
+   PALETTE:
+     Two anchor hues — Forest Green + Deep Navy
+     Warm paper neutrals for all surfaces
+     Red strictly for negation / rejected alternatives
+   
+   COMPONENT VOCABULARY:
+     pill             — mono font, outlined, rounded
+     pill-filled      — navy fill, white text, squared
+     badge-label      — small caps, surface fill
+     arch-badge       — navy or green filled, for layer annotations
+     process-card     — numbered step card
+     col-card         — three-column information card
+     ds-table         — decision table with navy header + red alt column
+     arch-row         — horizontal architecture layer row
+     dual-bar         — 2px navy+green underline bar
+     section-label    — green dash prefix + spaced uppercase label
+     legend-dot       — navy/green square dots for legend
+   
+   SEMANTIC LOGIC:
+     Green = execution, federated, local
+     Navy  = governance, central, immutable
+     Red   = rejected alternative, negation
+     The dual bar visually encodes this split at the bottom of slides
+
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── TOKENS ─────────────────────────────────────────────── */
+:root {
+  /* Brand */
+  --g-primary:      #2D6A2D;  /* Forest green — hero headings, federated dot, right bar */
+  --g-accent:       #3B7A3B;  /* Green mid — inline bold emphasis */
+  --g-light:        #4A8F3F;  /* Green light — hover, lighter elements */
+  --navy:           #1B2A6B;  /* Deep navy — table headers, central badges, left bar */
+  --navy-dark:      #0F1B4C;  /* Darker navy — high contrast */
+  --red:            #C0392B;  /* Danger / rejected alternative only */
+
+  /* Surfaces */
+  --bg:             #F5F3EC;  /* Warm paper — page/slide background */
+  --surface:        #EDEAE0;  /* Secondary surface */
+  --surface-card:   #F0EEE7;  /* Card fill */
+  --border:         #D0CCC0;  /* Standard border */
+  --border-subtle:  #E0DDD4;  /* Subtle divider */
+
+  /* Text */
+  --text:           #111111;  /* Near-black */
+  --text-secondary: #444444;  /* Body paragraphs */
+  --text-muted:     #888880;  /* Labels, captions */
+
+  /* Bars */
+  --bar-blue:       #1B2A6B;
+  --bar-green:      #2D6A2D;
+
+  /* Type */
+  --font:           'DM Sans', system-ui, sans-serif;
+  --mono:           'DM Mono', 'Courier New', monospace;
+
+  /* Radii */
+  --r-sm:           4px;
+  --r-md:           6px;
+  --r-lg:           8px;
+  --r-pill:         100px;
+}
+
+/* ── BASE ────────────────────────────────────────────────── */
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* ── TYPOGRAPHY ──────────────────────────────────────────── */
+
+/* Hero title — used for slide cover (first line dark, second line green) */
+.t-hero {
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+  color: var(--text);
+}
+.t-hero-green {
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+  color: var(--g-primary);
+}
+
+/* Slide H1 — main slide title */
+.t-h1 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+/* Slide H2 — statement slides with large green sentence */
+.t-statement {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  color: var(--text);
+}
+.t-statement-green {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  color: var(--g-primary);
+}
+
+/* Section label — "— THE GOVERNANCE MODEL" prefix pattern */
+.t-section-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.t-section-label::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 1.5px;
+  background: var(--g-primary);
+  flex-shrink: 0;
+}
+
+/* Body text */
+.t-body {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.t-body strong, .t-body b {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Card title */
+.t-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+/* Mono / tag text */
+.t-mono {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* Muted meta */
+.t-meta {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+/* Red emphasis (alternative rejected) */
+.t-rejected {
+  font-size: 12px;
+  color: var(--red);
+}
+
+/* ── PILLS & TAGS ─────────────────────────────────────────── */
+
+/* Concept pill — mono font, outlined, fully rounded */
+.pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-pill);
+  padding: 5px 14px;
+  background: transparent;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* Filled badge — navy, white text, squared corners */
+.pill-filled {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--navy);
+  border: none;
+  border-radius: var(--r-sm);
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+/* Ghost / outline badge */
+.pill-ghost {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 3px 8px;
+  background: transparent;
+  white-space: nowrap;
+}
+
+/* Metadata badge — light fill, small caps */
+.badge-label {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 2px 6px;
+  background: var(--surface);
+  white-space: nowrap;
+}
+
+/* Architecture layer badge — navy (central) */
+.arch-badge-center {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--navy);
+  color: #ffffff;
+  border-radius: var(--r-sm);
+  padding: 2px 7px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+/* Architecture layer badge — green (federated) */
+.arch-badge-fed {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--g-primary);
+  color: #ffffff;
+  border-radius: var(--r-sm);
+  padding: 2px 7px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+/* ── LEGEND ──────────────────────────────────────────────── */
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.dot-navy  { background: var(--navy); }
+.dot-green { background: var(--g-primary); }
+
+/* ── DUAL BAR ────────────────────────────────────────────── */
+/* The signature bottom element: navy left (central) + green right (federated) */
+.dual-bar {
+  display: flex;
+  width: 100%;
+  height: 2px;
+}
+.dual-bar-navy  { flex: 1; background: var(--bar-blue); }
+.dual-bar-green { flex: 1; background: var(--bar-green); }
+
+/* ── CARDS ───────────────────────────────────────────────── */
+
+/* Process step card */
+.process-card {
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px;
+  background: var(--surface-card);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+.process-card-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+.process-card-footer {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 0.5px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Three-column information card */
+.col-card {
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface-card);
+  padding: 16px;
+}
+.col-card-header {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 0.5px solid var(--border-subtle);
+}
+.col-card-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+.col-card-body {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.col-card-body strong {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Architecture layer row */
+.arch-row {
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  background: var(--surface-card);
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.arch-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  width: 72px;
+  flex-shrink: 0;
+  padding-top: 3px;
+}
+.arch-layer {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  width: 130px;
+  flex-shrink: 0;
+  line-height: 1.3;
+}
+.arch-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+}
+.arch-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 3px 8px;
+  background: var(--bg);
+}
+.arch-tag-bold {
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface);
+}
+
+/* ── TABLE ───────────────────────────────────────────────── */
+
+.ds-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.ds-table thead tr {
+  background: var(--navy);
+}
+.ds-table thead td {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+}
+.ds-table tbody tr {
+  border-bottom: 0.5px solid var(--border-subtle);
+}
+.ds-table tbody tr:last-child {
+  border-bottom: none;
+}
+.ds-table tbody td {
+  padding: 10px 14px;
+  color: var(--text-secondary);
+  vertical-align: top;
+  line-height: 1.5;
+  font-weight: 300;
+}
+.ds-table tbody td:first-child {
+  font-weight: 500;
+  color: var(--text);
+}
+.ds-table tbody td.col-rejected {
+  color: var(--red);
+  font-size: 11px;
+}
+.ds-table tbody td strong {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── LAYOUT HELPERS ──────────────────────────────────────── */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ── PAGE CHROME (for this export only) ─────────────────── */
+
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 40px;
+}
+.ds-section {
+  margin-bottom: 56px;
+}
+.ds-section-title {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  padding-bottom: 10px;
+  border-bottom: 0.5px solid var(--border);
+}
+.example-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  margin-top: 20px;
+}
+.example-label:first-child { margin-top: 0; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="ds-section">
+    <div style="margin-bottom:8px;">
+      <span class="t-hero">Agentic</span><br>
+      <span class="t-hero-green">Architecture</span>
+    </div>
+    <div style="font-family:var(--mono); font-size:11px; color:var(--text-muted); margin-bottom:24px;">
+      Design System · v1.0 · Extracted from agentic-architecture 5.html
+    </div>
+    <div class="dual-bar"></div>
+  </div>
+
+  <!-- 1. COLOR PALETTE -->
+  <div class="ds-section">
+    <div class="ds-section-title">1 — Color Palette</div>
+
+    <div class="example-label">Brand colors</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; margin-bottom:24px;">
+
+      <div style="border:0.5px solid var(--border); border-radius:8px; overflow:hidden;">
+        <div style="height:60px; background:#2D6A2D;"></div>
+        <div style="padding:8px 10px; background:var(--surface-card);">
+          <div style="font-size:11px; font-weight:500;">Green Primary</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted);">#2D6A2D · --g-primary</div>
+        </div>
+      </div>
+
+      <div style="border:0.5px solid var(--border); border-radius:8px; overflow:hidden;">
+        <div style="height:60px; background:#3B7A3B;"></div>
+        <div style="padding:8px 10px; background:var(--surface-card);">
+          <div style="font-size:11px; font-weight:500;">Green Accent</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted);">#3B7A3B · --g-accent</div>
+        </div>
+      </div>
+
+      <div style="border:0.5px solid var(--border); border-radius:8px; overflow:hidden;">
+        <div style="height:60px; background:#4A8F3F;"></div>
+        <div style="padding:8px 10px; background:var(--surface-card);">
+          <div style="font-size:11px; font-weight:500;">Green Light</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted);">#4A8F3F · --g-light</div>
+        </div>
+      </div>
+
+      <div style="border:0.5px solid var(--border); border-radius:8px; overflow:hidden;">
+        <div style="height:60px; background:#1B2A6B;"></div>
+        <div style="padding:8px 10px; background:var(--surface-card);">
+          <div style="font-size:11px; font-weight:500;">Navy Primary</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted);">#1B2A6B · --navy</div>
+        </div>
+      </div>
+
+      <div style="border:0.5px solid var(--border); border-radius:8px; overflow:hidden;">
+        <div style="height:60px; background:#0F1B4C;"></div>
+        <div style="padding:8px 10px; background:var(--surface-card);">
+          <div style="font-size:11px; font-weight:500;">Navy Dark</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted);">#0F1B4C · --navy-dark</div>
+        </div>
+      </div>
+
+      <div style="border:0.5px solid var(--border); border-radius:8px; overflow:hidden;">
+        <div style="height:60px; background:#C0392B;"></div>
+        <div style="padding:8px 10px; background:var(--surface-card);">
+          <div style="font-size:11px; font-weight:500;">Red Accent</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted);">#C0392B · --red</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="example-label">Neutral surfaces</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px;">
+
+      <div style="border:0.5px solid var(--border); border-radius:8px; overflow:hidden;">
+        <div style="height:48px; background:#F5F3EC; border-bottom:0.5px solid var(--border);"></div>
+        <div style="padding:8px 10px; background:var(--surface-card);">
+          <div style="font-size:11px; font-weight:500;">Background</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted);">#F5F3EC · --bg</div>
+        </div>
+      </div>
+
+      <div style="border:0.5px solid var(--border); border-radius:8px; overflow:hidden;">
+        <div style="height:48px; background:#EDEAE0; border-bottom:0.5px solid var(--border);"></div>
+        <div style="padding:8px 10px; background:var(--surface-card);">
+          <div style="font-size:11px; font-weight:500;">Surface</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted);">#EDEAE0 · --surface</div>
+        </div>
+      </div>
+
+      <div style="border:0.5px solid var(--border); border-radius:8px; overflow:hidden;">
+        <div style="height:48px; background:#F0EEE7; border-bottom:0.5px solid var(--border);"></div>
+        <div style="padding:8px 10px; background:var(--surface-card);">
+          <div style="font-size:11px; font-weight:500;">Surface Card</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted);">#F0EEE7 · --surface-card</div>
+        </div>
+      </div>
+
+      <div style="border:0.5px solid var(--border); border-radius:8px; overflow:hidden;">
+        <div style="height:48px; background:#D0CCC0; border-bottom:0.5px solid var(--border);"></div>
+        <div style="padding:8px 10px; background:var(--surface-card);">
+          <div style="font-size:11px; font-weight:500;">Border</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted);">#D0CCC0 · --border</div>
+        </div>
+      </div>
+
+      <div style="border:0.5px solid var(--border); border-radius:8px; overflow:hidden;">
+        <div style="height:48px; background:#111111;"></div>
+        <div style="padding:8px 10px; background:var(--surface-card);">
+          <div style="font-size:11px; font-weight:500;">Text Primary</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted);">#111111 · --text</div>
+        </div>
+      </div>
+
+      <div style="border:0.5px solid var(--border); border-radius:8px; overflow:hidden;">
+        <div style="height:48px; background:#888880;"></div>
+        <div style="padding:8px 10px; background:var(--surface-card);">
+          <div style="font-size:11px; font-weight:500;">Text Muted</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted);">#888880 · --text-muted</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 2. TYPOGRAPHY -->
+  <div class="ds-section">
+    <div class="ds-section-title">2 — Typography</div>
+
+    <div style="display:flex; flex-direction:column; gap:0;">
+
+      <div style="display:flex; gap:24px; align-items:baseline; padding:20px 0; border-bottom:0.5px solid var(--border-subtle);">
+        <div style="width:130px; flex-shrink:0;">
+          <div style="font-size:11px; font-weight:500; color:var(--text-muted);">Hero Title</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted); margin-top:3px;">DM Sans 700<br>48px / -0.02em</div>
+        </div>
+        <div>
+          <div class="t-hero" style="font-size:38px;">Agentic</div>
+          <div class="t-hero-green" style="font-size:38px;">Architecture</div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:24px; align-items:baseline; padding:20px 0; border-bottom:0.5px solid var(--border-subtle);">
+        <div style="width:130px; flex-shrink:0;">
+          <div style="font-size:11px; font-weight:500; color:var(--text-muted);">Slide H1</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted); margin-top:3px;">DM Sans 600<br>26px / -0.01em</div>
+        </div>
+        <div class="t-h1">One platform, three rings of control</div>
+      </div>
+
+      <div style="display:flex; gap:24px; align-items:flex-start; padding:20px 0; border-bottom:0.5px solid var(--border-subtle);">
+        <div style="width:130px; flex-shrink:0;">
+          <div style="font-size:11px; font-weight:500; color:var(--text-muted);">Section Label</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted); margin-top:3px;">DM Sans 500<br>10px / +0.12em<br>UPPERCASE<br>+ green dash</div>
+        </div>
+        <div>
+          <div class="t-section-label" style="margin-bottom:6px;">The Governance Model</div>
+          <div class="t-section-label">The Platform · Conceptual View</div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:24px; align-items:flex-start; padding:20px 0; border-bottom:0.5px solid var(--border-subtle);">
+        <div style="width:130px; flex-shrink:0;">
+          <div style="font-size:11px; font-weight:500; color:var(--text-muted);">Body Text</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted); margin-top:3px;">DM Sans 300<br>14px / lh 1.6<br>bold = 600</div>
+        </div>
+        <div class="t-body" style="max-width:460px;">
+          The same architecture serves every application. What stays <strong>fixed</strong>, what is <strong>tuned</strong>, and what is <strong>built locally</strong> is decided once, by which ring a choice belongs to.
+        </div>
+      </div>
+
+      <div style="display:flex; gap:24px; align-items:flex-start; padding:20px 0; border-bottom:0.5px solid var(--border-subtle);">
+        <div style="width:130px; flex-shrink:0;">
+          <div style="font-size:11px; font-weight:500; color:var(--text-muted);">Statement Green</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted); margin-top:3px;">DM Sans 600<br>22px · green last line</div>
+        </div>
+        <div>
+          <div class="t-statement">A central gateway governs every agent,<br>common capabilities are built once,<br>and execution stays beside the data it touches.</div>
+          <div class="t-statement-green">Control is centralised; data and tools are not.</div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:24px; align-items:baseline; padding:20px 0; border-bottom:0.5px solid var(--border-subtle);">
+        <div style="width:130px; flex-shrink:0;">
+          <div style="font-size:11px; font-weight:500; color:var(--text-muted);">Card Title</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted); margin-top:3px;">DM Sans 600<br>13px</div>
+        </div>
+        <div class="t-card-title">Reason + model call</div>
+      </div>
+
+      <div style="display:flex; gap:24px; align-items:baseline; padding:20px 0; border-bottom:0.5px solid var(--border-subtle);">
+        <div style="width:130px; flex-shrink:0;">
+          <div style="font-size:11px; font-weight:500; color:var(--text-muted);">Mono / Tags</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted); margin-top:3px;">DM Mono 400<br>10–11px</div>
+        </div>
+        <div class="t-mono">Policy engine · Sidecar runtime · Postgres + pgvector · LangGraph</div>
+      </div>
+
+      <div style="display:flex; gap:24px; align-items:baseline; padding:20px 0;">
+        <div style="width:130px; flex-shrink:0;">
+          <div style="font-size:11px; font-weight:500; color:var(--text-muted);">Red Negation</div>
+          <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted); margin-top:3px;">--red<br>12px / 300</div>
+        </div>
+        <div class="t-rejected">Decentralised policy only. Unenforceable; kill switch becomes theatre.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3. PILLS & TAGS -->
+  <div class="ds-section">
+    <div class="ds-section-title">3 — Pills, Tags & Badges</div>
+
+    <div class="example-label">.pill — concept labels (mono, outlined, fully rounded)</div>
+    <div class="pill-row" style="margin-bottom:16px;">
+      <span class="pill">Govern centrally</span>
+      <span class="pill">Execute where the data lives</span>
+      <span class="pill">Data sovereignty by design</span>
+    </div>
+
+    <div class="example-label">.pill-filled — non-negotiable constraint (navy, squared)</div>
+    <div class="pill-row" style="margin-bottom:16px;">
+      <span class="pill-filled">Non-negotiable first</span>
+      <span class="pill-filled">Kill switch</span>
+    </div>
+
+    <div class="example-label">.pill-ghost — metadata marker (outlined, small caps)</div>
+    <div class="pill-row" style="margin-bottom:16px;">
+      <span class="pill-ghost">Decision</span>
+      <span class="pill-ghost">Handoff</span>
+      <span class="pill-ghost">Runtime · AI Platform</span>
+      <span class="pill-ghost">MCP · Local</span>
+      <span class="pill-ghost">A2A · Governed</span>
+      <span class="pill-ghost">Observability</span>
+    </div>
+
+    <div class="example-label">.badge-label — inline annotation (mono, light surface)</div>
+    <div class="pill-row" style="margin-bottom:16px;">
+      <span class="badge-label">Central · Decision Point</span>
+      <span class="badge-label">Central · Shared</span>
+      <span class="badge-label">Federated · Enforcement Point</span>
+      <span class="badge-label">Core Primitive</span>
+    </div>
+
+    <div class="example-label">.arch-badge-center / .arch-badge-fed — layer annotation badges</div>
+    <div class="pill-row">
+      <span class="arch-badge-center">Central · Decision Point</span>
+      <span class="arch-badge-center">Central · Shared</span>
+      <span class="arch-badge-fed">Federated · Enforcement Point</span>
+    </div>
+  </div>
+
+  <!-- 4. LEGEND -->
+  <div class="ds-section">
+    <div class="ds-section-title">4 — Legend Pattern</div>
+    <div class="example-label">.legend / .legend-item / .dot</div>
+    <div class="legend">
+      <div class="legend-item">
+        <div class="dot dot-navy"></div>
+        Central, gateway decides
+      </div>
+      <div class="legend-item">
+        <div class="dot dot-green"></div>
+        Federated, edge executes
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. PROCESS CARDS -->
+  <div class="ds-section">
+    <div class="ds-section-title">5 — Process Cards</div>
+    <div class="example-label">.process-card (numbered step card)</div>
+    <div class="card-grid">
+      <div class="process-card">
+        <span class="process-card-num">01</span>
+        <div class="t-card-title">Admission</div>
+        <div class="t-body" style="font-size:11px;">Gateway and policy engine check: certified, permitted, allowed model set, kill switch registered.</div>
+        <div class="process-card-footer">
+          <span class="badge-label">Decision</span>
+        </div>
+      </div>
+      <div class="process-card">
+        <span class="process-card-num">02</span>
+        <div class="t-card-title">Dispatch to runtime</div>
+        <div class="t-body" style="font-size:11px;">Once cleared, routed to its sidecar (default), or a central capability or exception agent.</div>
+        <div class="process-card-footer">
+          <span class="badge-label">Handoff</span>
+        </div>
+      </div>
+      <div class="process-card">
+        <span class="process-card-num">03</span>
+        <div class="t-card-title">Reason + model call</div>
+        <div class="t-body" style="font-size:11px;">Runtime calls the model via the stateless AI platform, which routes cloud or on-prem per jurisdiction.</div>
+        <div class="process-card-footer">
+          <span class="badge-label">Runtime · AI Platform</span>
+        </div>
+      </div>
+      <div class="process-card">
+        <span class="process-card-num">04</span>
+        <div class="t-card-title">Tool call</div>
+        <div class="t-body" style="font-size:11px;">Payments tool invoked at the app boundary under the app's own credentials.</div>
+        <div class="process-card-footer">
+          <span class="badge-label">MCP · Local</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. COLUMN CARDS -->
+  <div class="ds-section">
+    <div class="ds-section-title">6 — Three-Column Cards</div>
+    <div class="example-label">.col-card (information architecture card)</div>
+    <div class="three-col">
+      <div class="col-card">
+        <div class="col-card-header">Central · Control & Capability</div>
+        <div class="col-card-title">Governed once, built once</div>
+        <div class="col-card-body">Agent gateway with the <strong>policy engine on top</strong>: admission, registry, eval gating, kill switch, observability. Plus <strong>shared capabilities</strong> (IDP, routers, summarisers, classification) built once and reused.</div>
+      </div>
+      <div class="col-card">
+        <div class="col-card-header">Federated · Execution</div>
+        <div class="col-card-title">Run beside the data</div>
+        <div class="col-card-body">Sidecar runtime, state, memory (<strong>Postgres + pgvector</strong>), durable execution and tool calls run with each application, under its own identity, with a <strong>central home only by exception</strong> for apps that can't host a sidecar.</div>
+      </div>
+      <div class="col-card">
+        <div class="col-card-header">Deliberate Boundaries</div>
+        <div class="col-card-title">Decide centrally, execute locally</div>
+        <div class="col-card-body">The gateway <strong>decides</strong>; the app boundary <strong>enforces and runs</strong>. No centralised customer memory. The AI platform is <strong>stateless</strong>. Vendors are implementations under the gateway, never its owner.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. ARCHITECTURE LAYER ROWS -->
+  <div class="ds-section">
+    <div class="ds-section-title">7 — Architecture Layer View</div>
+    <div class="example-label">.arch-row (horizontal layer with label, name, tags, badge)</div>
+    <div class="stack">
+      <div class="arch-row">
+        <div class="arch-label">Govern</div>
+        <div class="arch-layer">Agent Gateway</div>
+        <div class="arch-tags">
+          <span class="arch-tag arch-tag-bold">Policy engine (on top)</span>
+          <span class="arch-tag">Gateway · admission</span>
+          <span class="arch-tag">Registry</span>
+          <span class="arch-tag">Eval / cert gate</span>
+          <span class="arch-tag">Kill switch</span>
+          <span class="arch-tag">Observability aggregation</span>
+        </div>
+        <span class="arch-badge-center">Central · Decision Point</span>
+      </div>
+      <div class="arch-row">
+        <div class="arch-label">Reuse</div>
+        <div class="arch-layer">Agentic Capabilities</div>
+        <div class="arch-tags">
+          <span class="arch-tag arch-tag-bold">Intelligent Document Processing</span>
+          <span class="arch-tag">Routers</span>
+          <span class="arch-tag">Summarisers</span>
+          <span class="arch-tag">Classification flows</span>
+          <span class="arch-tag">built once · reused</span>
+        </div>
+        <span class="arch-badge-center">Central · Shared</span>
+      </div>
+      <div class="arch-row">
+        <div class="arch-label">Author</div>
+        <div class="arch-layer">Paved Road SDK</div>
+        <div class="arch-tags">
+          <span class="arch-tag arch-tag-bold">Skills</span>
+          <span class="arch-tag">Pydantic AI ✦</span>
+          <span class="arch-tag">Google ADK / MS Agent Framework</span>
+          <span class="arch-tag">LangGraph (when needed)</span>
+          <span class="arch-tag">MCP · tools</span>
+          <span class="arch-tag">A2A · agents</span>
+        </div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-label">Execute</div>
+        <div class="arch-layer">Execution Plane</div>
+        <div class="arch-tags">
+          <span class="arch-tag arch-tag-bold">Sidecar runtime · default</span>
+          <span class="arch-tag">Central runtime · exception</span>
+          <span class="arch-tag">State + memory · Postgres + pgvector</span>
+          <span class="arch-tag">Tool calls @ boundary · MCP</span>
+          <span class="arch-tag">Runs on: SKE · ServiceBench · AKS</span>
+        </div>
+        <span class="arch-badge-fed">Federated · Enforcement Point</span>
+      </div>
+      <div class="arch-row">
+        <div class="arch-label">Endure</div>
+        <div class="arch-layer">Temporal</div>
+        <div class="arch-tags">
+          <span class="arch-tag arch-tag-bold">Durable execution</span>
+          <span class="arch-tag">Retries & recovery</span>
+          <span class="arch-tag">Long-running + resumable workflows</span>
+          <span class="arch-tag">Survives failures & restarts</span>
+        </div>
+        <span class="badge-label">Core Primitive</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. DECISION TABLE -->
+  <div class="ds-section">
+    <div class="ds-section-title">8 — Decision Table</div>
+    <div class="example-label">.ds-table (navy header, red alternative rejected column)</div>
+    <table class="ds-table">
+      <thead>
+        <tr>
+          <td style="width:28%;">Decision</td>
+          <td style="width:42%;">Why</td>
+          <td style="width:30%;">Alternative Rejected</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Central agent gateway + policy engine</td>
+          <td>An immutable core has to be <strong>enforced in-path</strong>, not just declared. Policy and the kill switch must refuse and halt agents.</td>
+          <td class="col-rejected">Decentralised policy only. Unenforceable; kill switch becomes theatre.</td>
+        </tr>
+        <tr>
+          <td>Shared agentic capabilities, central</td>
+          <td><strong>Build once, reuse</strong>: IDP, routers, summarisers, classification flows. Consistency, speed and quality across applications.</td>
+          <td class="col-rejected">Every app rebuilds. Duplication, drift, inconsistent risk posture.</td>
+        </tr>
+        <tr>
+          <td>Tool execution federated at the app boundary</td>
+          <td>Gateway <strong>decides</strong>, app <strong>executes</strong> under its own identity. Keeps credentials, residency & segmentation local.</td>
+          <td class="col-rejected">Central tool-broker. Honeypot, breaks app identity, residency bleed.</td>
+        </tr>
+        <tr>
+          <td>Sidecar default · central runtime by exception</td>
+          <td>Some apps genuinely can't host a sidecar, so give them a <strong>governed central home</strong> rather than forcing workarounds.</td>
+          <td class="col-rejected">Sidecar everywhere. Blocks adoption; pushes teams to shadow, ungoverned runtimes.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 9. DUAL BAR -->
+  <div class="ds-section">
+    <div class="ds-section-title">9 — Dual Underline Bar</div>
+    <div class="example-label">.dual-bar (signature slide footer — navy = central, green = federated)</div>
+    <div style="background:var(--bg); padding:24px; border:0.5px solid var(--border); border-radius:8px; display:flex; flex-direction:column; gap:12px;">
+      <div class="t-body" style="color:var(--text-muted); font-size:12px;">Appears at the bottom of every slide. Two-pixel bar encoding the central/federated split.</div>
+      <div class="dual-bar"></div>
+    </div>
+  </div>
+
+  <!-- 10. SLIDE TEMPLATE EXAMPLE -->
+  <div class="ds-section">
+    <div class="ds-section-title">10 — Slide Template Example</div>
+    <div class="example-label">Complete slide composition</div>
+    <div style="background:var(--bg); border:0.5px solid var(--border); border-radius:12px; padding:40px 40px 20px; display:flex; flex-direction:column;">
+      <div class="t-section-label" style="margin-bottom:8px;">The Architecture in One View</div>
+      <div class="t-h1" style="margin-bottom:10px;">Govern centrally, execute where the data lives</div>
+      <div class="t-body" style="margin-bottom:24px; max-width:580px;">
+        A central gateway governs every agent, common capabilities are built once,
+        and execution stays beside the data it touches.
+        <span style="color:var(--g-primary); font-weight:600;"> Control is centralised; data and tools are not.</span>
+      </div>
+
+      <div class="three-col" style="margin-bottom:16px;">
+        <div class="col-card">
+          <div class="col-card-header">Central · Control & Capability</div>
+          <div class="col-card-title">Governed once, built once</div>
+          <div class="col-card-body">Agent gateway with the <strong>policy engine on top</strong>: admission, registry, eval gating, kill switch.</div>
+        </div>
+        <div class="col-card">
+          <div class="col-card-header">Federated · Execution</div>
+          <div class="col-card-title">Run beside the data</div>
+          <div class="col-card-body">Sidecar runtime, state, memory (<strong>Postgres + pgvector</strong>), durable execution under app identity.</div>
+        </div>
+        <div class="col-card">
+          <div class="col-card-header">Deliberate Boundaries</div>
+          <div class="col-card-title">Decide centrally, execute locally</div>
+          <div class="col-card-body">The gateway <strong>decides</strong>; the app boundary <strong>enforces and runs</strong>. Vendors never own the architecture.</div>
+        </div>
+      </div>
+
+      <div class="pill-row" style="margin-bottom:24px;">
+        <span class="pill">Azure AI Foundry → candidate control-plane impl.</span>
+        <span class="pill">AgentBricks → prototyping accelerator</span>
+        <span class="pill">Databricks / Bedrock → cloud AI platform</span>
+      </div>
+
+      <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted); text-align:right; margin-bottom:8px;">06 / 09</div>
+      <div class="dual-bar"></div>
+    </div>
+  </div>
+
+  <!-- CSS EXPORT -->
+  <div class="ds-section">
+    <div class="ds-section-title">11 — CSS Variables (copy into your project)</div>
+    <pre style="background:var(--surface); border:0.5px solid var(--border); border-radius:8px; padding:20px; font-family:var(--mono); font-size:11px; line-height:1.8; color:var(--text-secondary); overflow-x:auto; white-space:pre-wrap;">:root {
+  /* Brand — two-hue system: Green (execution/federated) + Navy (control/central) */
+  --g-primary:      #2D6A2D;  /* Forest green — hero headings, federated dot, right bar */
+  --g-accent:       #3B7A3B;  /* Green mid — inline bold emphasis */
+  --g-light:        #4A8F3F;  /* Green light — hover, lighter elements */
+  --navy:           #1B2A6B;  /* Deep navy — table headers, central badges, left bar */
+  --navy-dark:      #0F1B4C;  /* Darker navy — high contrast */
+  --red:            #C0392B;  /* Danger / rejected alternative ONLY */
+
+  /* Surfaces — warm paper family */
+  --bg:             #F5F3EC;  /* Warm paper — slide background */
+  --surface:        #EDEAE0;  /* Secondary surface */
+  --surface-card:   #F0EEE7;  /* Card fill */
+  --border:         #D0CCC0;  /* Standard border — always 0.5px */
+  --border-subtle:  #E0DDD4;  /* Subtle divider */
+
+  /* Text */
+  --text:           #111111;  /* Near-black */
+  --text-secondary: #444444;  /* Body paragraphs */
+  --text-muted:     #888880;  /* Labels, captions */
+
+  /* Dual bar */
+  --bar-blue:       #1B2A6B;
+  --bar-green:      #2D6A2D;
+
+  /* Typography */
+  --font:           'DM Sans', system-ui, sans-serif;
+  --mono:           'DM Mono', 'Courier New', monospace;
+
+  /* Radii */
+  --r-sm:           4px;
+  --r-md:           6px;
+  --r-lg:           8px;
+  --r-pill:         100px;
+}</pre>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="padding-top:24px;">
+    <div style="font-family:var(--mono); font-size:10px; color:var(--text-muted); margin-bottom:12px;">
+      Agentic Architecture Design System · Extracted May 2026 · For use in Claude Design / Claude Artifacts
+    </div>
+    <div class="dual-bar"></div>
+  </div>
+
+</div>
+</body>
+</html>
